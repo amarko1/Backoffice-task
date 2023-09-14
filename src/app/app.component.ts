@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {TicketService} from './services/ticket.service';
 
 @Component({
   selector: 'app-root',
@@ -7,14 +6,9 @@ import {TicketService} from './services/ticket.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private readonly ticketService: TicketService
-  ) {
+  constructor() {
   }
 
   public ngOnInit(): void {
-    this.ticketService.getTickets({}).subscribe(
-      tickets => console.log(tickets)
-    );
   }
 }

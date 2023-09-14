@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Ticket, TicketFilter} from '../models/ticket.model';
 import {tickets} from '../data/ticket.data';
+import {WebUtils} from '../utils/web.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class TicketService {
 
   public getTicket(id: string): Observable<Ticket> {
     const ticket = tickets.find(t => t.id === id);
-    return of(ticket);
+    return WebUtils.mockSuccess('getTicket', {id: id}, ticket);
   }
 
   public getTickets(filter: TicketFilter): Observable<Ticket[]> {
@@ -23,6 +24,6 @@ export class TicketService {
         (!filter.createdTo || t.createdAt <= filter.createdTo)
     );
 
-    return of(filteredTickets);
+    return WebUtils.mockSuccess('getTickets', filter, filteredTickets);
   }
 }

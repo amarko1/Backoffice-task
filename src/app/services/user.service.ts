@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable, of, throwError} from 'rxjs';
+import {Observable} from 'rxjs';
 import {User} from '../models/user.model';
 import {users} from '../data/user.data';
+import {WebUtils} from '../utils/web.utils';
 
 export enum StorageKey {
   CurrentUser = 'CurrentUser'
@@ -18,8 +19,12 @@ export class UserService {
 
   public login(username: string, password: string): Observable<User> {
     this.loadCurrentUser();
+    const request = {
+      username: username,
+      password: password
+    };
     if (this.currentUser) {
-      return throwError(() => new Error('logged-in'));
+      return WebUtils.mockError('login', request, 'logged-in');
     }
 
     username = username.trim();
@@ -28,26 +33,26 @@ export class UserService {
     if (user) {
       this.currentUser = user;
       localStorage.setItem(StorageKey.CurrentUser, JSON.stringify(this.currentUser));
-      return of(this.currentUser);
+      return WebUtils.mockSuccess('login', request, this.currentUser);
     } else {
-      return throwError(() => new Error('unknown'));
+      return WebUtils.mockError('login', request, 'unknown');
     }
   }
 
   public logout(): Observable<any> {
     this.loadCurrentUser();
     if (!this.currentUser) {
-      return throwError(() => new Error('logged-out'));
+      return WebUtils.mockError('logout', {}, 'logged-out');
     }
 
     this.currentUser = null;
     localStorage.removeItem(StorageKey.CurrentUser);
-    return of('logout-success');
+    return WebUtils.mockSuccess('logout', {}, 'logout-success');
   }
 
   public isAuthorized(): Observable<boolean> {
     this.loadCurrentUser();
-    return of(!!this.currentUser);
+    return WebUtils.mockSuccess('isAuthorized', {}, !!this.currentUser);
   }
 
   public getCurrentUser(): User {

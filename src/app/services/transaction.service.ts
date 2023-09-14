@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Transaction, TransactionFilter} from '../models/transaction.model';
 import {transactions} from '../data/transaction.data';
+import {WebUtils} from '../utils/web.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class TransactionService {
 
   public getTransaction(id: string): Observable<Transaction> {
     const transaction = transactions.find(t => t.id === id);
-    return of(transaction);
+    return WebUtils.mockSuccess('getTransaction', {id: id}, transaction);
   }
 
   public getTransactions(filter: TransactionFilter): Observable<Transaction[]> {
@@ -26,6 +27,6 @@ export class TransactionService {
         (!filter.createdTo || t.createdAt <= filter.createdTo)
     );
 
-    return of(filteredTransactions);
+    return WebUtils.mockSuccess('getTransactions', filter, filteredTransactions);
   }
 }
