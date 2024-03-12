@@ -18,7 +18,7 @@ export class UserService {
   constructor() { }
 
   public login(username: string, password: string): Observable<User> {
-    this.loadCurrentUser();
+    //this.loadCurrentUser();
     const request = {
       username: username,
       password: password

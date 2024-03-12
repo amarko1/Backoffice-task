@@ -1,8 +1,21 @@
-<form (ngSubmit)="login()">
-  <label>Username: </label>
-  <input type="text" [(ngModel)]="username" name="username" required>
-  <label>Password: </label>
-  <input type="password" [(ngModel)]="password" name="password" required>
-  <button type="submit">Login</button>
-</form>
-<div *ngIf="errorMessage">{{errorMessage}}</div>
+<div class="container">
+  <div class="content-container">
+    <div class="logo-container">
+      <div class="logo"></div>
+    </div>
+    <div class="title-container">
+      <h1 class="title">Backoffice Test</h1>
+    </div>
+    <div>
+      <form (ngSubmit)="login()">
+        <label>Username: </label>
+        <input type="text" [(ngModel)]="username" name="username" required>
+        <label>Password: </label>
+        <input type="password" [(ngModel)]="password" name="password" required>
+        <button type="submit">Login</button>
+      </form>
+      <div *ngIf="errorMessage">{{errorMessage}}</div>
+    </div>
+  </div>
+</div>
+
