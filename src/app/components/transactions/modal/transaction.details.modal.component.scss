@@ -15,6 +15,14 @@
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  transform: translateY(-50px);
+  transition: transform 0.3s;
+}
+
+.modal-backdrop.show .modal-content {
+  transform: translateY(0);
 }
 
 button {
@@ -22,4 +30,13 @@ button {
   border: none;
   background: none;
   cursor: pointer;
+}
+
+.modal-close-button {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
