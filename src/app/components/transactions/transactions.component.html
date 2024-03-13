@@ -1,0 +1,74 @@
+<app-navbar></app-navbar>
+<app-transaction-details-modal></app-transaction-details-modal>
+<div class="filter-container">
+  <form (ngSubmit)="onFilter()">
+    <label>Player ID:</label>
+    <input type="text" [(ngModel)]="filters.playerId" name="playerId" placeholder="Player ID">
+
+    <label>External ID:</label>
+    <input type="text" [(ngModel)]="filters.externalId" name="externalId" placeholder="External ID">
+
+    <label>Type:</label>
+    <select [(ngModel)]="filters.type" name="type">
+      <option value="" >All Types</option>
+      <option value="SportPayIn">Sport pay in</option>
+      <option value="SportPayOut">Sport pay out</option>
+      <option value="PaymentProviderWithdraw">Payment provider withdraw</option>
+      <option value="PaymentProviderDeposit">Payment provider deposit</option>
+      <option value="SportWon">Sport won</option>
+      <option value="SportLost">Sport lost</option>
+    </select>
+
+    <label>Direction:</label>
+    <select [(ngModel)]="filters.direction" name="direction" value=>
+      <option value="" >All Directions</option>
+      <option value="PayIn">Pay in</option>
+      <option value="PayOut">Pay out</option>
+      <option value="Deposit">Deposit</option>
+      <option value="Withdraw">Withdraw</option>
+      <option value="Won">Won</option>
+      <option value="Lost">Lost</option>
+    </select>
+
+    <label>Provider:</label>
+    <select [(ngModel)]="filters.provider" name="provider">
+      <option value="" >All Providers</option>
+      <option value="Sport">Sport</option>
+      <option value="PaymentProvider">Payment provider</option>
+    </select>
+
+    <label>Start Date:</label>
+    <input type="date" [(ngModel)]="filters.startDate" name="startDate">
+
+    <label>End Date:</label>
+    <input type="date" [(ngModel)]="filters.endDate" name="endDate">
+
+    <button type="submit">Filter</button>
+    <button type="button" (click)="reset()">Reset</button>
+  </form>
+</div>
+<table>
+  <thead>
+  <tr>
+    <th>Player ID</th>
+    <th>External ID</th>
+    <th>Type</th>
+    <th>Direction</th>
+    <th>Provider</th>
+    <th>Created at</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let transaction of transactions">
+    <td>{{ transaction.playerId }}</td>
+    <td>{{ transaction.externalId }}</td>
+    <td>{{ transaction.type }}</td>
+    <td>{{ transaction.direction }}</td>
+    <td>{{ transaction.provider }}</td>
+    <td>{{ transaction.createdAt }}</td>
+    <td>
+      <button (click)="openTransactionDetails(transaction)">Details</button>
+    </td>
+  </tr>
+  </tbody>
+</table>

@@ -1,0 +1,14 @@
+<div class="modal-backdrop" *ngIf="isVisible">
+  <div class="modal-content">
+    <button (click)="closeModal()">X</button>
+    <h2>Transaction Details</h2>
+    <p>Player ID: {{transaction?.playerId}}</p>
+    <p>External Id: {{transaction?.externalId}}</p>
+    <p>Type: {{transaction?.type}}</p>
+    <p>Direction: {{transaction?.direction}}</p>
+    <p>Provider: {{transaction?.provider}}</p>
+    <p>Amount: {{transaction?.amount}}</p>
+    <p>Currency: {{transaction?.currency}}</p>
+    <p>Created at: {{transaction?.createdAt}}</p>
+  </div>
+</div>

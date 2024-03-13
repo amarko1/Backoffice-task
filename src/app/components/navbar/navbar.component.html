@@ -1,0 +1,11 @@
+<div class="navbar">
+  <a [routerLink]="['/dashboard']"><img src="assets/branding/large-logo.png" alt="Firm Logo" class="logo"></a>
+  <nav>
+    <ul>
+      <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
+      <li><a [routerLink]="['/transactions']">Transactions</a></li>
+      <li><a [routerLink]="['/tickets']">Tickets</a></li>
+      <li><a (click)="logout()">Logout</a></li>
+    </ul>
+  </nav>
+</div>

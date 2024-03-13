@@ -7,18 +7,25 @@ import {RouterModule, Routes} from "@angular/router";
 import {AuthGuard} from "./services/auth.guard";
 import {CommonModule} from "@angular/common";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import { TransactionsComponent } from './components/transactions/transactions.component';
+import {NavbarComponent} from "./components/navbar/navbar.component";
+import {TransactionDetailsModalComponent} from "./components/transactions/modal/transaction.details.modal.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'transactions', component: TransactionsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    TransactionsComponent,
+    NavbarComponent,
+    TransactionDetailsModalComponent
   ],
   imports: [
     BrowserModule,

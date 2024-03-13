@@ -14,6 +14,7 @@ export enum StorageKey {
 export class UserService {
 
   private currentUser: User;
+  private isLoggedIn: boolean = false;
 
   constructor() { }
 
@@ -32,9 +33,11 @@ export class UserService {
     const user = users.find(u => u.username === username && u.password === password);
     if (user) {
       this.currentUser = user;
+      this.isLoggedIn = true;
       localStorage.setItem(StorageKey.CurrentUser, JSON.stringify(this.currentUser));
       return WebUtils.mockSuccess('login', request, this.currentUser);
     } else {
+      this.isLoggedIn = false;
       return WebUtils.mockError('login', request, 'unknown');
     }
   }
@@ -50,9 +53,12 @@ export class UserService {
     return WebUtils.mockSuccess('logout', {}, 'logout-success');
   }
 
-  public isAuthorized(): Observable<boolean> {
-    this.loadCurrentUser();
-    return WebUtils.mockSuccess('isAuthorized', {}, !!this.currentUser);
+  public isAuthorized(): Promise<boolean> {
+    return new Promise((resolve) => {
+      const currentUserString = localStorage.getItem(StorageKey.CurrentUser);
+      const currentUser = currentUserString ? JSON.parse(currentUserString) : null;
+      resolve(!!currentUser);
+    });
   }
 
   public getCurrentUser(): User {
