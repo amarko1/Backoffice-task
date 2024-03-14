@@ -2,8 +2,8 @@
 <app-transaction-details-modal></app-transaction-details-modal>
 <div class="filter-container">
   <form (ngSubmit)="onFilter()">
-    <label>Player ID:</label>
-    <input type="text" [(ngModel)]="filters.playerId" name="playerId" placeholder="Player ID">
+    <label>Player:</label>
+    <input type="text" [(ngModel)]="filters.playerName" name="playerName" placeholder="Player Name">
 
     <label>External ID:</label>
     <input type="text" [(ngModel)]="filters.externalId" name="externalId" placeholder="External ID">
@@ -47,28 +47,28 @@
     <button type="button" (click)="reset()">Reset</button>
   </form>
 </div>
-<table>
-  <thead>
-  <tr>
-    <th>Player ID</th>
-    <th>External ID</th>
-    <th>Type</th>
-    <th>Direction</th>
-    <th>Provider</th>
-    <th>Created at</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let transaction of transactions">
-    <td>{{ transaction.playerId }}</td>
-    <td>{{ transaction.externalId }}</td>
-    <td>{{ transaction.type }}</td>
-    <td>{{ transaction.direction }}</td>
-    <td>{{ transaction.provider }}</td>
-    <td>{{ transaction.createdAt }}</td>
-    <td>
-      <button (click)="openTransactionDetails(transaction)">Details</button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+
+<div *ngIf="isLoadingPlayers" class="loading-players">Loading data...</div>
+<div *ngIf="!isLoadingPlayers" class="centered-table-container">
+  <table>
+    <thead>
+    <tr>
+      <th>Player</th>
+      <th>Type</th>
+      <th>Direction</th>
+      <th>Provider</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let transaction of transactions">
+      <td>{{ getPlayerName(transaction.playerId) }}</td>
+      <td>{{ transaction.type }}</td>
+      <td>{{ transaction.direction }}</td>
+      <td>{{ transaction.provider }}</td>
+      <td class="centered-content">
+        <button (click)="openTransactionDetails(transaction)">Details</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

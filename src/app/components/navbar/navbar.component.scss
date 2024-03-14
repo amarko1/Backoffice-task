@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: cornflowerblue;
+  background-color: #007bff;
   padding: 0.5rem 1rem;
 
   .logo {
@@ -20,6 +20,7 @@
       margin-left: 20px;
 
       a {
+        font-family: Corbel;
         color: white;
         text-decoration: none;
 

@@ -10,12 +10,15 @@ import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {TransactionDetailsModalComponent} from "./components/transactions/modal/transaction.details.modal.component";
+import { TicketsComponent } from './components/tickets/tickets.component';
+import {TicketDetailsModalComponent} from "./components/tickets/modal/ticket.details.modal.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'transactions', component: TransactionsComponent, canActivate: [AuthGuard] },
+  { path: 'tickets', component: TicketsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
@@ -25,7 +28,9 @@ const routes: Routes = [
     DashboardComponent,
     TransactionsComponent,
     NavbarComponent,
-    TransactionDetailsModalComponent
+    TransactionDetailsModalComponent,
+    TicketsComponent,
+    TicketDetailsModalComponent
   ],
   imports: [
     BrowserModule,

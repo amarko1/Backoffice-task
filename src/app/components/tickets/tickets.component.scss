@@ -39,17 +39,17 @@ button {
   }
 }
 
+table {
+  width: 70%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
 .centered-table-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-}
-
-table {
-  width: 70%;
-  border-collapse: collapse;
-  margin-top: 20px;
 }
 
 table, th, td {
@@ -61,6 +61,7 @@ th, td {
   padding: 8px;
 }
 
+
 th {
   background-color: #007bff;
   color: white;
@@ -70,15 +71,30 @@ tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
+.status-won {
+  color: green;
+}
+
+.status-lost {
+  color: red;
+}
+
+.status-other {
+  color: orange;
+}
+
 .loading-players {
   text-align: center;
   font-size: larger;
   padding: 20px;
 }
 
-.centered-content {
+.centered-content .button-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+
+
 

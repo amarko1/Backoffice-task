@@ -1,0 +1,64 @@
+<app-navbar></app-navbar>
+<app-ticket-details-modal></app-ticket-details-modal>
+<div class="filter-container">
+  <form (ngSubmit)="onFilter()">
+    <label>Player:</label>
+    <input type="text" [(ngModel)]="filters.playerName" name="playerName" placeholder="Enter player name">
+
+    <label>Status: </label>
+    <select [(ngModel)]="filters.status" name="status">
+      <option value="" >All statuses</option>
+      <option value="Won">Won</option>
+      <option value="Lost">Lost</option>
+      <option value="Created">Created</option>
+    </select>
+
+    <label>Start Date:</label>
+    <input type="date" [(ngModel)]="filters.startDate" name="startDate">
+
+    <label>End Date:</label>
+    <input type="date" [(ngModel)]="filters.endDate" name="endDate">
+
+    <button type="submit">Filter</button>
+    <button type="button" (click)="reset()">Reset</button>
+  </form>
+</div>
+<div *ngIf="isLoadingPlayers" class="loading-players">Loading data...</div>
+<div *ngIf="!isLoadingPlayers" class="centered-table-container">
+  <table>
+    <thead>
+    <tr>
+      <th>Player ID</th>
+      <th>Bets</th>
+      <th>Pay in amount</th>
+      <th>Pay out amount</th>
+      <th>Currency</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let ticket of tickets">
+      <td>{{ getPlayerName(ticket.playerId) }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let bet of ticket.bets">
+            {{ bet.participants.join(' vs ') }}: {{ bet.status }} at: {{ bet.odds }} odds
+          </li>
+        </ul>
+      </td>
+      <td>{{ ticket.payInAmount }}</td>
+      <td>{{ ticket.payOutAmount }}</td>
+      <td>{{ ticket.currency }}</td>
+      <td>
+        <h4 [ngClass]="getStatusClass(ticket?.status)">{{ ticket?.status }}</h4>
+      </td>
+      <td class="centered-content">
+        <div class="button-wrapper">
+          <button (click)="openTransactionDetails(ticket)">Details</button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
