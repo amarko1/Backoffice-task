@@ -2,7 +2,7 @@
   <div class="modal-content">
     <button (click)="closeModal()">X</button>
     <h2>Transaction Details</h2>
-    <p>Player ID: {{transaction?.playerId}}</p>
+    <p>Player: {{getPlayerName(transaction?.playerId)}}</p>
     <p>External Id: {{transaction?.externalId}}</p>
     <p>Type: {{transaction?.type}}</p>
     <p>Direction: {{transaction?.direction}}</p>
@@ -10,5 +10,28 @@
     <p>Amount: {{transaction?.amount}}</p>
     <p>Currency: {{transaction?.currency}}</p>
     <p>Created at: {{transaction?.createdAt}}</p>
+
+
+    <h3>Linked tickets</h3>
+
+    <div *ngIf="isLoading" class="loading-indicator">
+      Loading tickets...
+    </div>
+
+    <ul *ngIf="!isLoading && tickets.length > 0">
+      <li *ngFor="let ticket of tickets">
+        <p>Ticket ID: {{ ticket.id }}</p>
+        <p>Status: {{ ticket.status }}</p>
+        <p>Pay in amount: {{ ticket.payInAmount }}</p>
+        <p>Pay out amount: {{ ticket.payOutAmount }}</p>
+        <ul>
+          <li *ngFor="let bet of ticket.bets">
+            {{ bet.participants.join(' vs ') }}: {{ bet.status }} at: {{ bet.odds }} odds
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p *ngIf="!isLoading && tickets.length === 0">No linked tickets.</p>
   </div>
 </div>

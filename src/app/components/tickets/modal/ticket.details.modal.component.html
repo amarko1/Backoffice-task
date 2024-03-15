@@ -1,8 +1,8 @@
 <div class="modal-backdrop" *ngIf="isVisible">
   <div class="modal-content">
     <button (click)="closeModal()">X</button>
-    <h2>Transaction Details</h2>
-    <p>Player: {{ ticket?.playerId }}</p>
+    <h2>Ticket details</h2>
+    <p>Player: {{ getPlayerName(ticket.playerId) }}</p>
     <p>Created at: {{ ticket?.createdAt }}</p>
     <h3>Bets:</h3>
     <ul *ngIf="ticket?.bets && ticket.bets.length > 0">
@@ -19,7 +19,7 @@
     <p>Currency: {{ ticket?.currency }}</p>
     <h4 style="font-weight: bold"  [ngClass]="getStatusClass(ticket.status)">Status: {{ ticket.status }}</h4>
 
-    <h3>Linked Transactions</h3>
+    <h3>Linked transactions</h3>
 
     <div *ngIf="isLoading" class="loading-indicator">
       Loading transactions...
@@ -30,6 +30,8 @@
         <p>Transaction ID: {{ transaction.id }}</p>
         <p>Type: {{ transaction.type }}</p>
         <p>Provider: {{ transaction.provider }}</p>
+        <p>Amount: {{ transaction.amount }}</p>
+        <p>Currency: {{ transaction.currency }}</p>
       </li>
     </ul>
 

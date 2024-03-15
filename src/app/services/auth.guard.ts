@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router} from '@angular/router';
 import { UserService } from './user.service';
 import {map, Observable} from "rxjs";
+import {Grant} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +10,23 @@ import {map, Observable} from "rxjs";
 export class AuthGuard implements CanActivate {
   constructor(private userService: UserService, private router: Router) {}
 
-  async canActivate(): Promise<boolean> {
-    try {
-      const isAuth = await this.userService.isAuthorized();
-      if (!isAuth) {
-        this.router.navigate(['/login']);
-        return false;
-      }
-      return true;
-    } catch (error) {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const requiredGrants = route.data['grants'] as Grant[] || [];
+    const currentUser = this.userService.getCurrentUser();
+
+    if (!currentUser) {
       this.router.navigate(['/login']);
       return false;
     }
+
+    const hasRequiredGrants = requiredGrants.every(grant => currentUser.grants.includes(grant));
+
+    if (!hasRequiredGrants) {
+      window.alert("Cannot acces");
+      this.router.navigate(['/dashboard']);
+      return false;
+    }
+
+    return true;
   }
 }

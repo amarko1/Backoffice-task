@@ -12,7 +12,7 @@ import {Player} from "../../models/player.model";
 })
 
 export class TransactionsComponent implements OnInit {
-  filters: any = {};
+  filters: any = { type:'', direction: '', provider:'' };
   transactions: Transaction[] = [];
   players: Player[] = [];
   selectedTransaction: Transaction | null = null;
@@ -44,15 +44,14 @@ export class TransactionsComponent implements OnInit {
   onFilter() {
     const filterPlayerNameLower = this.filters.playerName?.toLowerCase();
 
-    // Filtriraj ID-ove igrača koji odgovaraju unesenom imenu
     const filteredPlayerIds = this.players
       .filter(player =>
         player.firstName.toLowerCase().includes(filterPlayerNameLower) ||
-        player.lastName.toLowerCase().includes(filterPlayerNameLower))
+        player.lastName.toLowerCase().includes(filterPlayerNameLower)
+      )
       .map(player => player.id);
 
     this.transactions = transactions.filter(transaction => {
-      // Provjeri odgovara li ID igrača u transakciji filtriranim ID-ovima
       const matchesPlayerId = !this.filters.playerName || filteredPlayerIds.includes(transaction.playerId);
       const matchesExternalId = !this.filters.externalId || transaction.externalId === this.filters.externalId;
       const matchesType = !this.filters.type || transaction.type === this.filters.type;
@@ -71,7 +70,7 @@ export class TransactionsComponent implements OnInit {
     this.transactions = transactions;
   }
   reset() {
-    this.filters = {};
+    this.filters = {type:'',direction: '',provider:''};
     this.loadTransactions();
   }
 }

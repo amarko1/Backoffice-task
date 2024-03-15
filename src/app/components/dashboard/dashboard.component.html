@@ -1,5 +1,17 @@
 <app-navbar></app-navbar>
 <div class="dashboard-container">
   <h1>Dashboard</h1>
-  <!-- Prikazi korisničke informacije, linkove, statistike, itd. -->
+  <div class="personal-welcome">
+    <h2>Welcome back, {{ username }}!</h2>
+  </div>
+  <div class="overview-card">
+    <h3>Total transactions</h3>
+    <p>{{ totalTransactions }}</p>
+    <a [routerLink]="['/transactions']">click here to go to.. </a>
+  </div>
+  <div class="overview-card">
+    <h3>Total tickets</h3>
+    <p>{{ totalTickets }}</p>
+    <a [routerLink]="['/tickets']">click here to go to.. </a>
+  </div>
 </div>

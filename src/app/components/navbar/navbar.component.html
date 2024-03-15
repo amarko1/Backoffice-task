@@ -3,9 +3,13 @@
   <nav>
     <ul>
       <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
-      <li><a [routerLink]="['/transactions']">Transactions</a></li>
-      <li><a [routerLink]="['/tickets']">Tickets</a></li>
-      <li><a id="logout" (click)="logout()">Logout</a></li>
+      <div *ngIf="hasGrant(Grant.CanViewTransactions)">
+        <li><a [routerLink]="['/transactions']">Transactions</a></li>
+      </div>
+      <div *ngIf="hasGrant(Grant.CanViewTickets)">
+        <li><a [routerLink]="['/tickets']">Tickets</a></li>
+      </div>
+      <li><a id="logout" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
     </ul>
   </nav>
 </div>

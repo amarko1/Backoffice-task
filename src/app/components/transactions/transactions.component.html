@@ -20,7 +20,7 @@
     </select>
 
     <label>Direction:</label>
-    <select [(ngModel)]="filters.direction" name="direction" value=>
+    <select [(ngModel)]="filters.direction" name="direction">
       <option value="" >All Directions</option>
       <option value="PayIn">Pay in</option>
       <option value="PayOut">Pay out</option>
@@ -54,6 +54,7 @@
     <thead>
     <tr>
       <th>Player</th>
+      <th>External id</th>
       <th>Type</th>
       <th>Direction</th>
       <th>Provider</th>
@@ -62,6 +63,7 @@
     <tbody>
     <tr *ngFor="let transaction of transactions">
       <td>{{ getPlayerName(transaction.playerId) }}</td>
+      <td>{{ transaction.externalId }}</td>
       <td>{{ transaction.type }}</td>
       <td>{{ transaction.direction }}</td>
       <td>{{ transaction.provider }}</td>

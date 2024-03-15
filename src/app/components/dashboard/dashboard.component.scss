@@ -6,4 +6,12 @@ html, body {
 
 .dashboard-container {
   padding: 1rem;
+  font-family: Bahnschrift;
+}
+
+.overview-card, .personal-welcome {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: white;
 }
