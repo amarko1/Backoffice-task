@@ -10,19 +10,18 @@ import {Grant} from "../models/user.model";
 export class AuthGuard implements CanActivate {
   constructor(private userService: UserService, private router: Router) {}
 
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    const requiredGrants = route.data['grants'] as Grant[] || [];
+  async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
     const currentUser = this.userService.getCurrentUser();
+    const requiredGrants = route.data['grants'] as Grant[] || [];
+    const hasRequiredGrants = requiredGrants.every(grant => currentUser.grants.includes(grant));
 
     if (!currentUser) {
       this.router.navigate(['/login']);
       return false;
     }
 
-    const hasRequiredGrants = requiredGrants.every(grant => currentUser.grants.includes(grant));
-
     if (!hasRequiredGrants) {
-      window.alert("Cannot acces");
+      window.alert("Cannot access");
       this.router.navigate(['/dashboard']);
       return false;
     }

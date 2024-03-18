@@ -20,7 +20,7 @@ export class LoginComponent {
         this.router.navigate(['dashboard']);
       },
       error: (error) => {
-        this.errorMessage = error.error;
+        alert("Wrong username or password")
         console.error('Login error:', error);
       }
     });

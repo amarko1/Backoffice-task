@@ -2,38 +2,41 @@
 <app-ticket-details-modal></app-ticket-details-modal>
 <div class="filter-container">
   <form (ngSubmit)="onFilter()">
-    <label>Player:</label>
-    <input type="text" [(ngModel)]="filters.playerName" name="playerName" placeholder="Enter player name">
+    <label>{{'player' | translate}}:</label>
+    <select [(ngModel)]="filters.playerId" name="playerId">
+      <option value="" >{{'allPlayers' | translate}}</option>
+      <option *ngFor="let player of players" [value]="player.id">{{ player.firstName }} {{ player.lastName }}</option>
+    </select>
 
-    <label>Status: </label>
+    <label>{{'status' | translate}}: </label>
     <select [(ngModel)]="filters.status" name="status">
-      <option value="" >All statuses</option>
+      <option value="" >{{'allStatuses' | translate}}</option>
       <option value="Won">Won</option>
       <option value="Lost">Lost</option>
       <option value="Created">Created</option>
     </select>
 
-    <label>Start Date:</label>
+    <label>{{'startDate' | translate}}:</label>
     <input type="date" [(ngModel)]="filters.startDate" name="startDate">
 
-    <label>End Date:</label>
+    <label>{{'endDate' | translate}}:</label>
     <input type="date" [(ngModel)]="filters.endDate" name="endDate">
 
-    <button type="submit">Filter</button>
-    <button type="button" (click)="reset()">Reset</button>
+    <button type="submit">{{'filter' | translate}}</button>
+    <button type="button" (click)="reset()">{{'reset' | translate}}</button>
   </form>
 </div>
-<div *ngIf="isLoadingPlayers" class="loading-players">Loading data...</div>
-<div *ngIf="!isLoadingPlayers" class="centered-table-container">
+<div *ngIf="isLoading" class="loading-players">{{'loading' | translate}}</div>
+<div *ngIf="!isLoading" class="centered-table-container">
   <table>
     <thead>
     <tr>
-      <th>Player ID</th>
-      <th>Bets</th>
-      <th>Pay in amount</th>
-      <th>Pay out amount</th>
-      <th>Currency</th>
-      <th>Status</th>
+      <th>{{'player' | translate}}</th>
+      <th>{{'bets' | translate}}</th>
+      <th>{{'payInAmount' | translate}}</th>
+      <th>{{'payOutAmount' | translate}}</th>
+      <th>{{'currency' | translate}}</th>
+      <th>{{'status' | translate}}</th>
     </tr>
     </thead>
     <tbody>
@@ -42,7 +45,7 @@
       <td>
         <ul>
           <li *ngFor="let bet of ticket.bets">
-            {{ bet.participants.join(' vs ') }}: {{ bet.status }} at: {{ bet.odds }} odds
+            {{ bet.participants.join(' vs ') }}: {{ bet.status }} at: {{ bet.odds | number:'1.2-2'  }} odds
           </li>
         </ul>
       </td>
@@ -54,7 +57,7 @@
       </td>
       <td class="centered-content">
         <div class="button-wrapper">
-          <button (click)="openTransactionDetails(ticket)">Details</button>
+          <button (click)="openTransactionDetails(ticket)">{{'details' | translate}}</button>
         </div>
       </td>
     </tr>

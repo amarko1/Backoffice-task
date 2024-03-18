@@ -4,6 +4,8 @@ import {transactions} from "../../data/transaction.data";
 import {TransactionDetailsModalComponent} from "./modal/transaction.details.modal.component";
 import {PlayerService} from "../../services/player.service";
 import {Player} from "../../models/player.model";
+import {TransactionService} from "../../services/transaction.service";
+import {filter} from "rxjs";
 
 @Component({
   selector: 'app-transactions',
@@ -12,21 +14,30 @@ import {Player} from "../../models/player.model";
 })
 
 export class TransactionsComponent implements OnInit {
-  filters: any = { type:'', direction: '', provider:'' };
+  filters: any = { playerId:'',type:'', direction: '', provider:'' };
   transactions: Transaction[] = [];
   players: Player[] = [];
   selectedTransaction: Transaction | null = null;
   @ViewChild(TransactionDetailsModalComponent) modal! :TransactionDetailsModalComponent;
-  isLoadingPlayers: boolean = true;
+  isLoading: boolean = true;
 
-  constructor(private playerService: PlayerService) {}
+  constructor(private playerService: PlayerService, private transactionService: TransactionService) {}
 
   ngOnInit() {
     this.loadTransactions();
-    this.isLoadingPlayers = true;
+    this.isLoading = true;
     this.playerService.getPlayers().subscribe((data) => {
       this.players = data;
-      this.isLoadingPlayers = false;
+      this.sortPlayers();
+      this.isLoading = false;
+    });
+  }
+
+  sortPlayers() {
+    this.players.sort((a, b) => {
+      const nameA = `${a.firstName} ${a.lastName}`;
+      const nameB = `${b.firstName} ${b.lastName}`;
+      return nameA.localeCompare(nameB);
     });
   }
 
@@ -42,27 +53,10 @@ export class TransactionsComponent implements OnInit {
   }
 
   onFilter() {
-    const filterPlayerNameLower = this.filters.playerName?.toLowerCase();
-
-    const filteredPlayerIds = this.players
-      .filter(player =>
-        player.firstName.toLowerCase().includes(filterPlayerNameLower) ||
-        player.lastName.toLowerCase().includes(filterPlayerNameLower)
-      )
-      .map(player => player.id);
-
-    this.transactions = transactions.filter(transaction => {
-      const matchesPlayerId = !this.filters.playerName || filteredPlayerIds.includes(transaction.playerId);
-      const matchesExternalId = !this.filters.externalId || transaction.externalId === this.filters.externalId;
-      const matchesType = !this.filters.type || transaction.type === this.filters.type;
-      const matchesDirection = !this.filters.direction || transaction.direction === this.filters.direction;
-      const matchesProvider = !this.filters.provider || transaction.provider === this.filters.provider;
-      const matchesDateRange = !this.filters.createdFrom && !this.filters.createdTo ||
-        (this.filters.createdFrom && new Date(transaction.createdAt) >= new Date(this.filters.createdFrom)) &&
-        (this.filters.createdTo && new Date(transaction.createdAt) <= new Date(this.filters.createdTo));
-
-      return matchesPlayerId && matchesExternalId && matchesType &&
-        matchesDirection && matchesProvider && matchesDateRange;
+    this.isLoading = true;
+    this.transactionService.getTransactions(this.filters).subscribe(transactions =>{
+      this.transactions = transactions;
+      this.isLoading = false;
     });
   }
 
@@ -70,7 +64,7 @@ export class TransactionsComponent implements OnInit {
     this.transactions = transactions;
   }
   reset() {
-    this.filters = {type:'',direction: '',provider:''};
+    this.filters = {playerId:'' ,type:'',direction: '',provider:''};
     this.loadTransactions();
   }
 }

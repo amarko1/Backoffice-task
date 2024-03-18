@@ -8,7 +8,7 @@
     <ul *ngIf="ticket?.bets && ticket.bets.length > 0">
       <li *ngFor="let bet of ticket.bets">
         <p>Match: {{ bet.participants.join(' vs ') }}</p>
-        <p>Odds: {{ bet.odds }}</p>
+        <p>Odds: {{ bet.odds | number: '1.2-2' }}</p>
         <p>Market: {{ bet.market }}</p>
         <p [ngClass]="getStatusClass(bet?.status)">Status: {{ bet?.status }}</p>
         <p>Start at: {{ bet.startAt | date:'medium' }}</p>

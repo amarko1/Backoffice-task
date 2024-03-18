@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import {RouterModule, Routes} from "@angular/router";
@@ -13,10 +13,14 @@ import {TransactionDetailsModalComponent} from "./components/transactions/modal/
 import { TicketsComponent } from './components/tickets/tickets.component';
 import {TicketDetailsModalComponent} from "./components/tickets/modal/ticket.details.modal.component";
 import {Grant} from "./models/user.model";
+import {LoginRedirectGuard} from "./services/login.guard";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate: [LoginRedirectGuard]},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   {
@@ -32,6 +36,10 @@ const routes: Routes = [
     data: { grants: [Grant.CanViewTickets] }
   },
 ];
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -49,6 +57,15 @@ const routes: Routes = [
     FormsModule,
     CommonModule,
     RouterModule.forRoot(routes),
+    ReactiveFormsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   exports: [
     RouterModule

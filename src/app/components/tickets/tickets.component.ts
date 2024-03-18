@@ -12,11 +12,11 @@ import {TicketService} from "../../services/ticket.service";
   styleUrls: ['./tickets.component.scss']
 })
 export class TicketsComponent implements OnInit {
-  filters: any = { status: ''};
+  filters: any = { playerId: '', status:''};
   tickets: Ticket[] = [];
   players: Player[] = [];
   selectedTickets: Ticket | null = null;
-  isLoadingPlayers: boolean = true;
+  isLoading: boolean = true;
  @ViewChild(TicketDetailsModalComponent) modal! :TicketDetailsModalComponent;
 
   constructor(
@@ -25,11 +25,20 @@ export class TicketsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTickets();
-    this.isLoadingPlayers = true;
+    this.isLoading = true;
       this.playerService.getPlayers().subscribe((data) => {
         this.players = data;
-        this.isLoadingPlayers = false;
+        this.sortPlayers();
+        this.isLoading = false;
       });
+  }
+
+  sortPlayers() {
+    this.players.sort((a, b) => {
+      const nameA = `${a.firstName} ${a.lastName}`;
+      const nameB = `${b.firstName} ${b.lastName}`;
+      return nameA.localeCompare(nameB);
+    });
   }
 
   getPlayerName(playerId: string): string {
@@ -48,27 +57,15 @@ export class TicketsComponent implements OnInit {
   }
 
   onFilter() {
-    const filterPlayerNameLower = this.filters.playerName?.toLowerCase().split(' ').filter(word => word.length > 0);
-
-    this.tickets = tickets.filter(ticket => {
-      const player = this.players.find(p => p.id === ticket.playerId);
-      if (!player) return false;
-
-      const fullNameLower = `${player.firstName.toLowerCase()} ${player.lastName.toLowerCase()}`;
-
-      const matchesPlayerName = filterPlayerNameLower.every(part => fullNameLower.includes(part));
-
-      const matchesStatus = !this.filters.status || ticket.status === this.filters.status;
-      const matchesDateRange = !this.filters.startDate && !this.filters.endDate ||
-        (this.filters.startDate && new Date(ticket.createdAt) >= new Date(this.filters.startDate)) &&
-        (this.filters.endDate && new Date(ticket.createdAt) <= new Date(this.filters.endDate));
-
-      return matchesPlayerName && matchesStatus && matchesDateRange;
-    });
+    this.isLoading = true;
+    this.ticketService.getTickets(this.filters).subscribe( tickets => {
+      this.tickets = tickets;
+      this.isLoading = false;
+    })
   }
 
   reset(){
-    this.filters = { status: ''};
+    this.filters = { playerId:'', status: ''};
     this.loadTickets();
   }
 
