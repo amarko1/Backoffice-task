@@ -1,41 +1,41 @@
 <div class="modal-backdrop" *ngIf="isVisible">
   <div class="modal-content">
     <button (click)="closeModal()">X</button>
-    <h2>Ticket details</h2>
-    <p>Player: {{ getPlayerName(ticket.playerId) }}</p>
-    <p>Created at: {{ ticket?.createdAt }}</p>
-    <h3>Bets:</h3>
+    <h2>{{'ticketDetails' | translate}}</h2>
+    <p>{{'player' | translate}}: {{ getPlayerName(ticket.playerId) }}</p>
+    <p>{{'createdAt' | translate}}: {{ ticket?.createdAt }}</p>
+    <h3>{{'bets' | translate}}:</h3>
     <ul *ngIf="ticket?.bets && ticket.bets.length > 0">
       <li *ngFor="let bet of ticket.bets">
-        <p>Match: {{ bet.participants.join(' vs ') }}</p>
-        <p>Odds: {{ bet.odds | number: '1.2-2' }}</p>
-        <p>Market: {{ bet.market }}</p>
-        <p [ngClass]="getStatusClass(bet?.status)">Status: {{ bet?.status }}</p>
-        <p>Start at: {{ bet.startAt | date:'medium' }}</p>
+        <p>{{'match' | translate}}: {{ bet.participants.join(' vs ') }}</p>
+        <p>{{'odds' | translate}}: {{ bet.odds | number: '1.2-2' }}</p>
+        <p>{{'market' | translate}}: {{ bet.market }}</p>
+        <p [ngClass]="getStatusClass(bet?.status)">{{'status' | translate}}: {{ bet?.status }}</p>
+        <p>{{'createdAt' | translate}}: {{ bet.startAt | date:'medium' }}</p>
       </li>
     </ul>
-    <p>Pay in amount: {{ ticket?.payInAmount }}</p>
-    <p>Pay out amount: {{ ticket?.payOutAmount }}</p>
-    <p>Currency: {{ ticket?.currency }}</p>
-    <h4 style="font-weight: bold"  [ngClass]="getStatusClass(ticket.status)">Status: {{ ticket.status }}</h4>
+    <p>{{'payInAmount' | translate}}: {{ ticket?.payInAmount }}</p>
+    <p>{{'payOutAmount' | translate}}: {{ ticket?.payOutAmount }}</p>
+    <p>{{'currency' | translate}}: {{ ticket?.currency }}</p>
+    <h4 style="font-weight: bold"  [ngClass]="getStatusClass(ticket.status)">{{'status' | translate}}: {{ ticket.status }}</h4>
 
-    <h3>Linked transactions</h3>
+    <h3>{{'linkedTransactions' | translate}}</h3>
 
     <div *ngIf="isLoading" class="loading-indicator">
-      Loading transactions...
+      {{'loading' | translate}}
     </div>
 
     <ul *ngIf="!isLoading && transactions.length > 0">
       <li *ngFor="let transaction of transactions">
-        <p>Transaction ID: {{ transaction.id }}</p>
-        <p>Type: {{ transaction.type }}</p>
-        <p>Provider: {{ transaction.provider }}</p>
-        <p>Amount: {{ transaction.amount }}</p>
-        <p>Currency: {{ transaction.currency }}</p>
+        <p>{{'transactionId' | translate}}: {{ transaction.id }}</p>
+        <p>{{'type' | translate}}: {{ transaction.type }}</p>
+        <p>{{'provider' | translate}}: {{ transaction.provider }}</p>
+        <p>{{'amount' | translate}}: {{ transaction.amount }}</p>
+        <p>{{'currency' | translate}}: {{ transaction.currency }}</p>
       </li>
     </ul>
 
-    <p *ngIf="!isLoading && transactions.length === 0">No linked transactions.</p>
+    <p *ngIf="!isLoading && transactions.length === 0">{{'noListedTransactions' | translate}}</p>
   </div>
 </div>
 

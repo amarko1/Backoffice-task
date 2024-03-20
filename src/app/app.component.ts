@@ -11,11 +11,6 @@ export class AppComponent implements OnInit {
     translate.setDefaultLang('hr');
     translate.use('hr');
   }
-
-  switchLanguage(language: string) {
-    this.translate.use(language);
-  }
-
   public ngOnInit(): void {
   }
 }

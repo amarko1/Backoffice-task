@@ -2,6 +2,13 @@
   <a [routerLink]="['/dashboard']"><img src="assets/branding/large-logo.png" alt="Firm Logo" class="logo"></a>
   <nav>
     <ul>
+      <li class="language-selector">
+        <label>{{ 'language' | translate }}: </label>
+        <select (change)="changeLanguage($event)">
+          <option value="hr">{{ 'croatian' | translate }}</option>
+          <option value="en">{{ 'english' | translate }}</option>
+        </select>
+      </li>
       <li><a [routerLink]="['/dashboard']">{{ 'dashboard' | translate }}</a></li>
       <div *ngIf="hasGrant(Grant.CanViewTransactions)">
         <li><a [routerLink]="['/transactions']">{{ 'transactions' | translate }}</a></li>

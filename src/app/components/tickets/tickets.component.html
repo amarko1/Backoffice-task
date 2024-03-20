@@ -45,7 +45,7 @@
       <td>
         <ul>
           <li *ngFor="let bet of ticket.bets">
-            {{ bet.participants.join(' vs ') }}: {{ bet.status }} at: {{ bet.odds | number:'1.2-2'  }} odds
+            {{ bet.participants.join(' vs ') }}: {{ bet.status }} at: {{ bet.odds | number:'1.2-2'  }} {{'odds' | translate}}
           </li>
         </ul>
       </td>

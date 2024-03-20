@@ -15,22 +15,52 @@
     display: flex;
     margin: 0;
     padding: 0;
+    align-items: center;
 
     li {
-      margin-left: 20px;
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
 
       a {
-        font-family: Corbel;
+        font-family: Corbel, sans-serif;
         color: white;
         text-decoration: none;
+        padding: 0.5rem 1rem;
 
         &:hover {
           text-decoration: underline;
           color: yellow;
-          cursor: pointer;
+        }
+      }
+    }
+
+    .language-selector {
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+
+      label {
+        margin-right: 10px;
+        color: white;
+      }
+
+      select {
+        padding: 0.5rem;
+        border: 1px solid #fff;
+        background-color: transparent;
+        color: white;
+        border-radius: 4px;
+
+        &:focus {
+          outline: none;
+          border-color: yellow;
+        }
+
+        option {
+          color: black;
         }
       }
     }
   }
 }
-
