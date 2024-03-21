@@ -2,14 +2,14 @@
   <div class="modal-content">
     <button (click)="closeModal()">X</button>
     <h2>{{'transactionDetails' | translate}}</h2>
-    <p>{{'player' | translate}}: {{getPlayerName(transaction?.playerId)}}</p>
     <p>{{'externalId' | translate}}: {{transaction?.externalId}}</p>
+    <p>{{'player' | translate}}: {{getPlayerName(transaction?.playerId)}}</p>
     <p>{{'type' | translate}}: {{transaction?.type}}</p>
     <p>{{'direction' | translate}}: {{transaction?.direction}}</p>
     <p>{{'provider' | translate}}: {{transaction?.provider}}</p>
     <p>{{'amount' | translate}}: {{transaction?.amount}}</p>
     <p>{{'currency' | translate}}: {{transaction?.currency}}</p>
-    <p>{{'createdAt' | translate}}: {{transaction?.createdAt}}</p>
+    <p>{{'createdAt' | translate}}: {{transaction?.createdAt | dateFormat }}</p>
 
 
     <h3>{{'linkedTickets' | translate}}</h3>

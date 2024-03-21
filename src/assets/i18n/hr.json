@@ -43,5 +43,7 @@
   "language": "Jezik",
   "linkedTransactions": "Povezane transakcije",
   "croatian": "Hrvatski",
-  "english": "Engleski"
+  "english": "Engleski",
+  "externalIdError": "Samo brojevi su dopusteni u external ID polju",
+  "startAt": "Vrijeme događaja"
 }

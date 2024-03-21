@@ -12,7 +12,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  align-items: center;
+  align-items: start;
 }
 
 .filter-container label {
@@ -24,6 +24,21 @@
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #cccccc;
+}
+
+.form-errors {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  text-align: center;
+  width: 100%;
+  padding: 5px 0;
 }
 
 button {
@@ -82,5 +97,16 @@ tr:nth-child(even) {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.button-disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+
+  &:hover {
+    background-color: #cccccc;
+    color: #666666;
+  }
 }
 

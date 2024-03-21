@@ -17,7 +17,11 @@ import {LoginRedirectGuard} from "./services/login.guard";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {SharedModuleModule} from "./shared-module/shared-module.module";
+import { registerLocaleData } from '@angular/common';
+import localeHr from '@angular/common/locales/hr';
 
+registerLocaleData(localeHr);
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginRedirectGuard]},
@@ -50,7 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NavbarComponent,
     TransactionDetailsModalComponent,
     TicketsComponent,
-    TicketDetailsModalComponent
+    TicketDetailsModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +63,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
     HttpClientModule,
+    SharedModuleModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

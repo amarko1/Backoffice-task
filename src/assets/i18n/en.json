@@ -43,5 +43,7 @@
   "language": "Language",
   "linkedTransactions": "Linked transactions",
   "croatian": "Croatian",
-  "english": "English"
+  "english": "English",
+  "externalIdError": "Only numbers allowed in external ID input",
+  "startAt": "Start at"
 }

@@ -4,7 +4,6 @@ import {PlayerService} from "../../../services/player.service";
 import {Player} from "../../../models/player.model";
 import {TicketService} from "../../../services/ticket.service";
 import {Ticket, TicketFilter, TicketStatus} from "../../../models/ticket.model";
-import {transactions} from "../../../data/transaction.data";
 
 @Component({
   selector: 'app-transaction-details-modal',

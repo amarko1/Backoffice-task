@@ -1,19 +1,20 @@
 <app-navbar></app-navbar>
 <app-transaction-details-modal></app-transaction-details-modal>
 <div class="filter-container">
-  <form (ngSubmit)="onFilter()">
-    <label>{{'player' | translate}}:</label>
-    <select [(ngModel)]="filters.playerId" name="playerId">
-      <option value="">{{'allPlayers' | translate}}</option>
+  <form [formGroup]="filterForm" (ngSubmit)="onFilter()">
+    <label>{{ 'externalId' | translate }}:</label>
+    <input formControlName="externalId" type="text" name="externalId" placeholder="External ID">
+
+    <label>{{ 'player' | translate }}:</label>
+    <select formControlName="playerId" name="playerId">
+      <option value="">{{ 'allPlayers' | translate }}</option>
       <option *ngFor="let player of players" [value]="player.id">{{ player.firstName }} {{ player.lastName }}</option>
     </select>
 
-    <label>{{'externalId' | translate}}:</label>
-    <input type="text" [(ngModel)]="filters.externalId" name="externalId" placeholder="External ID">
 
-    <label>{{'type' | translate}}:</label>
-    <select [(ngModel)]="filters.type" name="type">
-      <option value="" >{{'allTypes' | translate}}</option>
+    <label>{{ 'type' | translate }}:</label>
+    <select formControlName="type" name="type">
+      <option value="">{{ 'allTypes' | translate }}</option>
       <option value="SportPayIn">Sport pay in</option>
       <option value="SportPayOut">Sport pay out</option>
       <option value="PaymentProviderWithdraw">Payment provider withdraw</option>
@@ -22,9 +23,9 @@
       <option value="SportLost">Sport lost</option>
     </select>
 
-    <label>{{'direction' | translate}}:</label>
-    <select [(ngModel)]="filters.direction" name="direction">
-      <option value="" >{{'allDirections' | translate}}</option>
+    <label>{{ 'direction' | translate }}:</label>
+    <select formControlName="direction" name="direction">
+      <option value="">{{ 'allDirections' | translate }}</option>
       <option value="PayIn">Pay in</option>
       <option value="PayOut">Pay out</option>
       <option value="Deposit">Deposit</option>
@@ -33,45 +34,57 @@
       <option value="Lost">Lost</option>
     </select>
 
-    <label>{{'provider' | translate}}:</label>
-    <select [(ngModel)]="filters.provider" name="provider">
-      <option value="" >{{'allProviders' | translate}}</option>
+    <label>{{ 'provider' | translate }}:</label>
+    <select formControlName="provider" name="provider">
+      <option value="">{{ 'allProviders' | translate }}</option>
       <option value="Sport">Sport</option>
       <option value="PaymentProvider">Payment provider</option>
     </select>
 
-    <label>{{'startDate' | translate}}:</label>
-    <input type="date" [(ngModel)]="filters.startDate" name="startDate">
+    <label>{{ 'startDate' | translate }}:</label>
+    <input formControlName="startDate" type="date" name="startDate">
 
-    <label>{{'endDate' | translate}}:</label>
-    <input type="date" [(ngModel)]="filters.endDate" name="endDate">
+    <label>{{ 'endDate' | translate }}:</label>
+    <input formControlName="endDate" type="date" name="endDate">
 
-    <button type="submit">{{'filter' | translate}}</button>
-    <button type="button" (click)="reset()">{{'reset' | translate}}</button>
+    <div class="form-errors">
+      <div *ngIf="filterForm.get('externalId').touched && filterForm.get('externalId').errors?.['pattern']"
+           class="error-message">
+        {{ 'externalIdError' | translate }}
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!filterForm.valid
+    || filterForm.get('externalId').errors?.['pattern']"
+            [class.button-disabled]="!filterForm.valid
+            || filterForm.get('externalId').errors?.['pattern']">
+      {{ 'filter' | translate }}
+    </button>
+    <button type="button" (click)="reset()">{{ 'reset' | translate }}</button>
   </form>
 </div>
 
-<div *ngIf="isLoading" class="loading-players">{{'loading' | translate}}</div>
+<div *ngIf="isLoading" class="loading-players">{{ 'loading' | translate }}</div>
 <div *ngIf="!isLoading" class="centered-table-container">
   <table>
     <thead>
     <tr>
-      <th>{{'player' | translate}}</th>
-      <th>{{'externalId' | translate}}</th>
-      <th>{{'type' | translate}}</th>
-      <th>{{'direction' | translate}}</th>
-      <th>{{'provider' | translate}}</th>
+      <th>{{ 'externalId' | translate }}</th>
+      <th>{{ 'player' | translate }}</th>
+      <th>{{ 'type' | translate }}</th>
+      <th>{{ 'direction' | translate }}</th>
+      <th>{{ 'provider' | translate }}</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let transaction of transactions">
-      <td>{{ getPlayerName(transaction.playerId) }}</td>
       <td>{{ transaction.externalId }}</td>
+      <td>{{ getPlayerName(transaction.playerId) }}</td>
       <td>{{ transaction.type }}</td>
       <td>{{ transaction.direction }}</td>
       <td>{{ transaction.provider }}</td>
       <td class="centered-content">
-        <button (click)="openTransactionDetails(transaction)">{{'details' | translate}}</button>
+        <button (click)="openTransactionDetails(transaction)">{{ 'details' | translate }}</button>
       </td>
     </tr>
     </tbody>

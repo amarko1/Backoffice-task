@@ -6,6 +6,7 @@ import {PlayerService} from "../../services/player.service";
 import {Player} from "../../models/player.model";
 import {TransactionService} from "../../services/transaction.service";
 import {filter} from "rxjs";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-transactions',
@@ -20,8 +21,22 @@ export class TransactionsComponent implements OnInit {
   selectedTransaction: Transaction | null = null;
   @ViewChild(TransactionDetailsModalComponent) modal! :TransactionDetailsModalComponent;
   isLoading: boolean = true;
+  filterForm: FormGroup;
 
-  constructor(private playerService: PlayerService, private transactionService: TransactionService) {}
+  constructor(private playerService: PlayerService,
+              private transactionService: TransactionService,
+              private fb: FormBuilder)
+  {
+    this.filterForm = this.fb.group({
+      playerId: [''],
+      externalId: ['', Validators.pattern(/^\d+$/)],
+      type: [''],
+      direction: [''],
+      provider: [''],
+      startDate: [''],
+      endDate: [''],
+    });
+  }
 
   ngOnInit() {
     this.loadTransactions();
@@ -54,17 +69,26 @@ export class TransactionsComponent implements OnInit {
 
   onFilter() {
     this.isLoading = true;
-    this.transactionService.getTransactions(this.filters).subscribe(transactions =>{
+    const formValues = this.filterForm.value;
+    this.transactionService.getTransactions(formValues).subscribe(transactions =>{
       this.transactions = transactions;
       this.isLoading = false;
     });
   }
-
   loadTransactions(filters?: any) {
     this.transactions = transactions;
   }
+
   reset() {
-    this.filters = {playerId:'' ,type:'',direction: '',provider:''};
+    this.filterForm.reset({
+      playerId: '',
+      externalId: '',
+      type: '',
+      direction: '',
+      provider: '',
+      startDate: '',
+      endDate: '',
+    });
     this.loadTransactions();
   }
 }
