@@ -20,6 +20,9 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {SharedModuleModule} from "./shared-module/shared-module.module";
 import { registerLocaleData } from '@angular/common';
 import localeHr from '@angular/common/locales/hr';
+import {NgSelectModule} from "@ng-select/ng-select";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {LoaderComponent} from "./components/loader/loader.component";
 
 registerLocaleData(localeHr);
 
@@ -55,6 +58,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TransactionDetailsModalComponent,
     TicketsComponent,
     TicketDetailsModalComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -64,6 +68,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     HttpClientModule,
     SharedModuleModule,
+    NgSelectModule,
+    FontAwesomeModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -72,9 +78,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  exports: [
-    RouterModule
-  ],
+  exports: [],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
 })

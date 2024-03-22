@@ -5,6 +5,7 @@ import {TicketDetailsModalComponent} from "./modal/ticket.details.modal.componen
 import {Player} from "../../models/player.model";
 import {PlayerService} from "../../services/player.service";
 import {TicketService} from "../../services/ticket.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-tickets',
@@ -12,7 +13,7 @@ import {TicketService} from "../../services/ticket.service";
   styleUrls: ['./tickets.component.scss']
 })
 export class TicketsComponent implements OnInit {
-  filters: any = { playerId: '', status:''};
+  filterForm: FormGroup;
   tickets: Ticket[] = [];
   players: Player[] = [];
   selectedTickets: Ticket | null = null;
@@ -20,8 +21,18 @@ export class TicketsComponent implements OnInit {
  @ViewChild(TicketDetailsModalComponent) modal! :TicketDetailsModalComponent;
 
   constructor(
-    private playerService: PlayerService, private ticketService: TicketService
-  ) { }
+    private playerService: PlayerService,
+    private ticketService: TicketService,
+    private fb: FormBuilder,
+  )
+  {
+    this.filterForm = this.fb.group({
+      playerId: [null],
+      status: [null],
+      startDate:[null],
+      endDate:[null]
+    });
+  }
 
   ngOnInit(): void {
     this.loadTickets();
@@ -58,14 +69,20 @@ export class TicketsComponent implements OnInit {
 
   onFilter() {
     this.isLoading = true;
-    this.ticketService.getTickets(this.filters).subscribe( tickets => {
+    const filter = this.filterForm.value;
+    this.ticketService.getTickets(filter).subscribe( tickets => {
       this.tickets = tickets;
       this.isLoading = false;
     })
   }
 
-  reset(){
-    this.filters = { playerId:'', status: ''};
+  reset() {
+    this.filterForm.reset({
+      playerId: null,
+      status: null,
+      startDate: null,
+      endDate: null
+    });
     this.loadTickets();
   }
 

@@ -11,7 +11,6 @@
       <option *ngFor="let player of players" [value]="player.id">{{ player.firstName }} {{ player.lastName }}</option>
     </select>
 
-
     <label>{{ 'type' | translate }}:</label>
     <select formControlName="type" name="type">
       <option value="">{{ 'allTypes' | translate }}</option>
@@ -64,7 +63,8 @@
   </form>
 </div>
 
-<div *ngIf="isLoading" class="loading-players">{{ 'loading' | translate }}</div>
+<app-loader *ngIf="isLoading"></app-loader>
+
 <div *ngIf="!isLoading" class="centered-table-container">
   <table>
     <thead>

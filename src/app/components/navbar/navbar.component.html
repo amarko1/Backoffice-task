@@ -3,20 +3,23 @@
   <nav>
     <ul>
       <li class="language-selector">
-        <label>{{ 'language' | translate }}: </label>
-        <select (change)="changeLanguage($event)">
-          <option value="hr">{{ 'croatian' | translate }}</option>
-          <option value="en">{{ 'english' | translate }}</option>
-        </select>
+        <div class="language-selector">
+            <span id="selectedFlag" class="flag-icon flag-icon-hr"></span>
+            <select id="languageSelect" (change)="changeLanguage($event)">
+              <option value="hr">HR</option>
+              <option value="en">EN</option>
+            </select>
+        </div>
       </li>
-      <li><a [routerLink]="['/dashboard']">{{ 'dashboard' | translate }}</a></li>
+      <div class="divider"></div>
+      <li><a [routerLink]="['/dashboard']">{{ 'dashboard' | translate }} </a></li>
       <div *ngIf="hasGrant(Grant.CanViewTransactions)">
         <li><a [routerLink]="['/transactions']">{{ 'transactions' | translate }}</a></li>
       </div>
       <div *ngIf="hasGrant(Grant.CanViewTickets)">
         <li><a [routerLink]="['/tickets']">{{ 'tickets' | translate }}</a></li>
       </div>
-      <li><a id="logout" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> {{ 'logout' | translate }}</a></li>
+      <li><a id="logout" (click)="logout()"><fa-icon style="color: yellow;" [icon]="faArrowRightFromBracket"></fa-icon> {{ 'logout' | translate }}</a></li>
     </ul>
   </nav>
 </div>
