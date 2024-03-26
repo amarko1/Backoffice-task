@@ -13,10 +13,14 @@ import {faArrowRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 export class NavbarComponent{
   protected readonly Grant = Grant;
   faArrowRightFromBracket = faArrowRightFromBracket
+  selectedLanguage: string;
   constructor(private userService: UserService,
               private router: Router,
               private translate: TranslateService
-  ) {}
+  )
+  {
+    this.selectedLanguage = this.translate.currentLang || 'hr';
+  }
   logout() {
     this.userService.logout();
     this.router.navigate(['login']);
@@ -31,15 +35,7 @@ export class NavbarComponent{
     this.translate.use(language);
   }
 
-  changeLanguage(event: Event) {
-    const selectElement = event.target as HTMLSelectElement;
-    const language = selectElement.value;
+  changeLanguage(language: string) {
     this.switchLanguage(language);
-    this.updateSelectedFlag(language);
-  }
-
-  updateSelectedFlag(language: string) {
-    const flagIcon = document.getElementById('selectedFlag') as HTMLSpanElement;
-    flagIcon.className = `flag-icon flag-icon-${language === 'en' ? 'us' : language}`;
   }
 }

@@ -4,29 +4,38 @@
   background-color: #f2f2f2;
   padding: 20px;
   border-radius: 8px;
-  width: 40%;
+  width: 30%;
   margin: 20px auto;
   margin-top: 110px;
 }
 
 .filter-container form {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.filter-container div {
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .filter-container label {
   margin-bottom: 5px;
 }
 
-
-
-.filter-container input,
-.filter-container select {
+.filter-container input {
+  width: 97%;
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #cccccc;
+}
+
+.filter-container .buttons{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  align-items: center;
 }
 
 button {
@@ -56,6 +65,7 @@ table {
   align-items: center;
   height: 100%;
 }
+
 
 table, th, td {
   border: 1px solid #dddddd;
@@ -94,11 +104,29 @@ tr:nth-child(even) {
   padding: 20px;
 }
 
-.centered-content .button-wrapper {
+div #filters{
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row-reverse;
+  margin: 0;
+  padding: 0;
 }
+
+#filters a{
+  color: blue;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    color: black;
+  }
+}
+
+form .buttons{
+  margin-bottom: 0;
+}
+
+
+
+
 
 
 

@@ -13,35 +13,42 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./tickets.component.scss']
 })
 export class TicketsComponent implements OnInit {
+  @ViewChild(TicketDetailsModalComponent) modal!: TicketDetailsModalComponent;
   filterForm: FormGroup;
-  tickets: Ticket[] = [];
+  filteredTickets: Ticket[] = [];
   players: Player[] = [];
   selectedTickets: Ticket | null = null;
   isLoading: boolean = true;
- @ViewChild(TicketDetailsModalComponent) modal! :TicketDetailsModalComponent;
+  isFiltersModalOpen = false;
+
+  filters = [
+    {label: 'Player', value: 'playerId', checked: true},
+    {label: 'Status', value: 'status', checked: true},
+    {label: 'Start date', value: 'startDate', checked: true},
+    {label: 'End date', value: 'endDate', checked: true},
+  ]
 
   constructor(
     private playerService: PlayerService,
     private ticketService: TicketService,
     private fb: FormBuilder,
-  )
-  {
+  ) {
     this.filterForm = this.fb.group({
       playerId: [null],
       status: [null],
-      startDate:[null],
-      endDate:[null]
+      startDate: [null],
+      endDate: [null]
     });
   }
 
   ngOnInit(): void {
     this.loadTickets();
     this.isLoading = true;
-      this.playerService.getPlayers().subscribe((data) => {
-        this.players = data;
-        this.sortPlayers();
-        this.isLoading = false;
-      });
+    this.playerService.getPlayers().subscribe((data) => {
+      this.players = data;
+      this.sortPlayers();
+      this.isLoading = false;
+    });
   }
 
   sortPlayers() {
@@ -58,7 +65,7 @@ export class TicketsComponent implements OnInit {
   }
 
   loadTickets(filters?: any) {
-    this.tickets = tickets;
+    this.filteredTickets = tickets;
   }
 
   openTransactionDetails(ticket: Ticket) {
@@ -70,8 +77,8 @@ export class TicketsComponent implements OnInit {
   onFilter() {
     this.isLoading = true;
     const filter = this.filterForm.value;
-    this.ticketService.getTickets(filter).subscribe( tickets => {
-      this.tickets = tickets;
+    this.ticketService.getTickets(filter).subscribe(tickets => {
+      this.filteredTickets = tickets;
       this.isLoading = false;
     })
   }
@@ -96,4 +103,27 @@ export class TicketsComponent implements OnInit {
         return 'status-other';
     }
   }
+
+  applyFilters(filters: any[]) {
+    // Prođite kroz sve filtere i dodajte ili uklonite kontrolu ovisno o stanju checked
+    filters.forEach(filter => {
+      if (filter.checked && !this.filterForm.contains(filter.value)) {
+        // Ako je filter odabran i kontrola ne postoji, dodajte kontrolu
+        this.filterForm.addControl(filter.value, this.fb.control(null));
+      } else if (!filter.checked && this.filterForm.contains(filter.value)) {
+        // Ako filter nije odabran i kontrola postoji, uklonite kontrolu
+        this.filterForm.removeControl(filter.value);
+      }
+    });
+    this.closeFiltersModal();
+  }
+
+  openFiltersModal() {
+    this.isFiltersModalOpen = true;
+  }
+
+  closeFiltersModal() {
+    this.isFiltersModalOpen = false;
+  }
+
 }

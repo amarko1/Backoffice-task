@@ -1,39 +1,64 @@
 <app-navbar></app-navbar>
 <app-ticket-details-modal></app-ticket-details-modal>
+<app-filter-modal
+  [filters]="filters"
+  [showModal]="isFiltersModalOpen"
+  (applyFilters)="applyFilters($event)"
+  (closeFilters)="closeFiltersModal()">
+</app-filter-modal>
 <div class="filter-container">
   <form [formGroup]="filterForm" (ngSubmit)="onFilter()">
 
-    <label>{{ 'player' | translate }}:</label>
-    <ng-select
-      formControlName="playerId"
-      [editableSearchTerm]="true"
-      placeholder="{{'allPlayers' | translate}}"
-      [clearable]="true"
-    >
-      <ng-option *ngFor="let player of players" [value]="player.id">
-        {{ player.firstName }} {{ player.lastName }}
-      </ng-option>
-    </ng-select>
+    <div id="filters">
+      <a (click)="openFiltersModal()"> Filters</a>
+    </div>
 
-    <label>{{ 'status' | translate }}: </label>
-    <ng-select
-      formControlName="status"
-      [editableSearchTerm]="true"
-      placeholder="{{'allStatuses' | translate}}"
-    >
-      <ng-option value="Won">Won</ng-option>
-      <ng-option value="Lost">Lost</ng-option>
-      <ng-option value="Created">Created</ng-option>
-    </ng-select>
+    <div *ngIf="filterForm.contains('playerId')">
+      <label>{{ 'player' | translate }}:</label>
+      <ng-select
+        formControlName="playerId"
+        [editableSearchTerm]="true"
+        placeholder="{{'allPlayers' | translate}}"
+        [clearable]="true"
+      >
+        <ng-option *ngFor="let player of players" [value]="player.id">
+          {{ player.firstName }} {{ player.lastName }}
+        </ng-option>
+      </ng-select>
+    </div>
 
-    <label>{{ 'startDate' | translate }}:</label>
-    <input type="date" formControlName="startDate" name="startDate">
+    <div *ngIf="filterForm.contains('status')">
+      <label>{{ 'status' | translate }}: </label>
+      <ng-select
+        formControlName="status"
+        [editableSearchTerm]="true"
+        placeholder="{{'allStatuses' | translate}}"
+      >
+        <ng-option value="Won">Won</ng-option>
+        <ng-option value="Lost">Lost</ng-option>
+        <ng-option value="Created">Created</ng-option>
+      </ng-select>
+    </div>
 
-    <label>{{ 'endDate' | translate }}:</label>
-    <input type="date" formControlName="endDate" name="endDate">
+    <div *ngIf="filterForm.contains('startDate')">
+      <label>{{ 'startDate' | translate }}:</label>
+      <input type="date" formControlName="startDate" name="startDate">
+    </div>
 
-    <button type="submit">{{ 'filter' | translate }}</button>
-    <button type="button" (click)="reset()">{{ 'reset' | translate }}</button>
+    <div *ngIf="filterForm.contains('endDate')">
+      <label>{{ 'endDate' | translate }}:</label>
+      <input type="date" formControlName="endDate" name="endDate">
+    </div>
+
+    <div class="buttons">
+      <button type="submit">{{ 'filter' | translate }}</button>
+      <button type="button" (click)="reset()">{{ 'reset' | translate }}</button>
+    </div>
+
+    <!--<div id="filterButton">
+      <button class="open-filters-btn" (click)="openFiltersModal()">Open Filters</button>
+    </div>-->
+
   </form>
 </div>
 
@@ -52,7 +77,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let ticket of tickets">
+    <tr *ngFor="let ticket of filteredTickets">
       <td>{{ getPlayerName(ticket.playerId) }}</td>
       <td>
         <ul>
@@ -69,9 +94,7 @@
         <h4 [ngClass]="getStatusClass(ticket?.status)">{{ ticket?.status }}</h4>
       </td>
       <td class="centered-content">
-        <div class="button-wrapper">
           <button (click)="openTransactionDetails(ticket)">{{ 'details' | translate }}</button>
-        </div>
       </td>
     </tr>
     </tbody>

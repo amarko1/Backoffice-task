@@ -23,6 +23,7 @@ import localeHr from '@angular/common/locales/hr';
 import {NgSelectModule} from "@ng-select/ng-select";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {LoaderComponent} from "./components/loader/loader.component";
+import {FilterModalComponent} from "./components/modal/filter.modal.component";
 
 registerLocaleData(localeHr);
 
@@ -58,7 +59,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TransactionDetailsModalComponent,
     TicketsComponent,
     TicketDetailsModalComponent,
-    LoaderComponent
+    LoaderComponent,
+    FilterModalComponent
   ],
   imports: [
     BrowserModule,

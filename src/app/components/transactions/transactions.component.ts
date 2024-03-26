@@ -28,13 +28,13 @@ export class TransactionsComponent implements OnInit {
               private fb: FormBuilder)
   {
     this.filterForm = this.fb.group({
-      playerId: [''],
+      playerId: [null],
       externalId: ['', Validators.pattern(/^\d+$/)],
-      type: [''],
-      direction: [''],
-      provider: [''],
-      startDate: [''],
-      endDate: [''],
+      type: [null],
+      direction: [null],
+      provider: [null],
+      startDate: [null],
+      endDate: [null],
     });
   }
 
@@ -81,13 +81,13 @@ export class TransactionsComponent implements OnInit {
 
   reset() {
     this.filterForm.reset({
-      playerId: '',
-      externalId: '',
-      type: '',
-      direction: '',
-      provider: '',
-      startDate: '',
-      endDate: '',
+      playerId: null,
+      externalId: null,
+      type: null,
+      direction: null,
+      provider: null,
+      startDate: null,
+      endDate: null,
     });
     this.loadTransactions();
   }
