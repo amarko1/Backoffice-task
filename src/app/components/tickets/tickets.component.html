@@ -10,7 +10,7 @@
   <form [formGroup]="filterForm" (ngSubmit)="onFilter()">
 
     <div id="filters">
-      <a (click)="openFiltersModal()"> Filters</a>
+      <a (click)="openFiltersModal()"> {{ 'filterLabel' | translate }}</a>
     </div>
 
     <div *ngIf="filterForm.contains('playerId')">

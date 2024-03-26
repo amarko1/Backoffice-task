@@ -1,3 +1,8 @@
+*{
+  font-family: Corbel;
+  font-size: 1rem;
+}
+
 .modal {
   position: fixed;
   top: 0;
@@ -34,3 +39,23 @@
 .modal-content button:hover {
   background-color: #f0f0f0;
 }
+.button-wrapper{
+  margin-top: 15px;
+}
+
+.check-boxes{
+  margin: 5px;
+}
+
+.button-wrapper button{
+  height: 40px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+

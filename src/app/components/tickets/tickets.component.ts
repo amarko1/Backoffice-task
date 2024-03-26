@@ -6,6 +6,13 @@ import {Player} from "../../models/player.model";
 import {PlayerService} from "../../services/player.service";
 import {TicketService} from "../../services/ticket.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {MatTableDataSource} from "@angular/material/table";
+import {
+  PropertyType,
+  TableConfiguration,
+  TableConfigurationProperty,
+  TableItem
+} from "../../configuration/table.configuration.models";
 
 @Component({
   selector: 'app-tickets',
@@ -28,6 +35,9 @@ export class TicketsComponent implements OnInit {
     {label: 'End date', value: 'endDate', checked: true},
   ]
 
+  dataSource = new MatTableDataSource<TableItem>();
+  tableConfiguration: TableConfiguration;
+
   constructor(
     private playerService: PlayerService,
     private ticketService: TicketService,
@@ -42,6 +52,40 @@ export class TicketsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.tableConfiguration = new TableConfiguration(
+      '',
+      [
+        new TableConfigurationProperty('Player', '', PropertyType.Text),
+        new TableConfigurationProperty('Bets', '', PropertyType.Text),
+        new TableConfigurationProperty('Pay in', '', PropertyType.Number),
+        new TableConfigurationProperty('Pay out', '', PropertyType.Number),
+        new TableConfigurationProperty('Currency', '', PropertyType.Text),
+        new TableConfigurationProperty('Status', '', PropertyType.Text)
+      ],
+      {
+        name: "Details",
+        action: (element) => this.openTransactionDetails(element)
+      }
+    );
+
+    const filter = this.filterForm.value;
+    this.ticketService.getTickets(filter).subscribe(tickets => {
+      this.dataSource.data = tickets.map(ticket => new TableItem({
+        id: ticket.id,
+        playerId: ticket.playerId,
+        createdAt: ticket.createdAt,
+        payInAmount: ticket.payInAmount,
+        payOutAmount: ticket.payOutAmount,
+        currency: ticket.currency,
+        status: ticket.status,
+        bets: ticket.bets.map(bet => `${bet.participants.join(' vs ')}: ${bet.status} at ${bet.odds}`).join('\n')
+      }, PropertyType.Text));
+    });
+
+
+
+
+
     this.loadTickets();
     this.isLoading = true;
     this.playerService.getPlayers().subscribe((data) => {

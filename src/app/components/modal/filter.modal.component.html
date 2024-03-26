@@ -1,11 +1,13 @@
 <div class="modal" *ngIf="showModal">
   <div class="modal-content">
-    <h3>Choose your filters</h3>
-    <div *ngFor="let filter of filters; let i = index">
+    <h3>{{'filterModal' | translate}}</h3>
+    <div class="check-boxes" *ngFor="let filter of filters; let i = index">
       <input type="checkbox" [id]="filter.label" [checked]="filter.checked" (change)="toggleFilter(i)">
       <label [for]="filter.label">{{ filter.label }}</label>
     </div>
-    <button (click)="applyAndClose()">Apply Filters</button>
-    <button (click)="close()">Close</button>
+    <div class="button-wrapper">
+      <button (click)="applyAndClose()">{{'apply' | translate}}</button>
+      <button (click)="close()">{{'close' | translate}}</button>
+    </div>
   </div>
 </div>

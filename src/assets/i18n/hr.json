@@ -45,5 +45,9 @@
   "croatian": "Hrvatski",
   "english": "Engleski",
   "externalIdError": "Samo brojevi su dopusteni u external ID polju",
-  "startAt": "Vrijeme događaja"
+  "startAt": "Vrijeme događaja",
+  "filterModal": "Izaberite filtere za prikaz",
+  "apply": "Spremi",
+  "close": "Zatvori",
+  "filterLabel": "Filteri"
 }

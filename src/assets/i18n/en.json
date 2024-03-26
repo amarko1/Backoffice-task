@@ -45,5 +45,9 @@
   "croatian": "Croatian",
   "english": "English",
   "externalIdError": "Only numbers allowed in external ID input",
-  "startAt": "Start at"
+  "startAt": "Start at",
+  "filterModal": "Choose your filters",
+  "apply": "Apply",
+  "close": "Close",
+  "filterLabel": "Filters"
 }

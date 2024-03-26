@@ -24,6 +24,8 @@ import {NgSelectModule} from "@ng-select/ng-select";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {LoaderComponent} from "./components/loader/loader.component";
 import {FilterModalComponent} from "./components/modal/filter.modal.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatTableModule} from "@angular/material/table";
 
 registerLocaleData(localeHr);
 
@@ -72,13 +74,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharedModuleModule,
     NgSelectModule,
     FontAwesomeModule,
+    MatTableModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule
   ],
   exports: [],
   providers: [AuthGuard],

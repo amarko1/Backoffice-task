@@ -6,11 +6,6 @@
     <input formControlName="externalId" type="text" name="externalId" placeholder="External ID">
 
     <label>{{ 'player' | translate }}:</label>
-    <!--<select formControlName="playerId" name="playerId">
-      <option value="">{{ 'allPlayers' | translate }}</option>
-      <option *ngFor="let player of players" [value]="player.id">{{ player.firstName }} {{ player.lastName }}</option>
-    </select>-->
-
     <ng-select
       formControlName="playerId"
       [editableSearchTerm]="true"
@@ -19,16 +14,6 @@
     </ng-select>
 
     <label>{{ 'type' | translate }}:</label>
- <!--   <select formControlName="type" name="type">
-      <option value="">{{ 'allTypes' | translate }}</option>
-      <option value="SportPayIn">Sport pay in</option>
-      <option value="SportPayOut">Sport pay out</option>
-      <option value="PaymentProviderWithdraw">Payment provider withdraw</option>
-      <option value="PaymentProviderDeposit">Payment provider deposit</option>
-      <option value="SportWon">Sport won</option>
-      <option value="SportLost">Sport lost</option>
-    </select>-->
-
     <ng-select
       formControlName="type"
       [editableSearchTerm]="true"
@@ -42,16 +27,6 @@
     </ng-select>
 
     <label>{{ 'direction' | translate }}:</label>
-<!--    <select formControlName="direction" name="direction">
-      <option value="">{{ 'allDirections' | translate }}</option>
-      <option value="PayIn">Pay in</option>
-      <option value="PayOut">Pay out</option>
-      <option value="Deposit">Deposit</option>
-      <option value="Withdraw">Withdraw</option>
-      <option value="Won">Won</option>
-      <option value="Lost">Lost</option>
-    </select>-->
-
     <ng-select
       formControlName="direction"
       [editableSearchTerm]="true"
@@ -67,12 +42,6 @@
     </ng-select>
 
     <label>{{ 'provider' | translate }}:</label>
-    <!--<select formControlName="provider" name="provider">
-      <option value="">{{ 'allProviders' | translate }}</option>
-      <option value="Sport">Sport</option>
-      <option value="PaymentProvider">Payment provider</option>
-    </select>-->
-
     <ng-select
       formControlName="provider"
       [editableSearchTerm]="true"
