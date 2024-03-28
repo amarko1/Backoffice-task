@@ -19,7 +19,7 @@ export class TableConfigurationProperty {
   {}
 }
 
-export class TableItem {
+/*export class TableItem {
   data: any;
   type: PropertyType;
 
@@ -27,4 +27,8 @@ export class TableItem {
     this.data = data;
     this.type = type;
   }
+}*/
+
+export class TableItem {
+  constructor(public data: any) {}
 }

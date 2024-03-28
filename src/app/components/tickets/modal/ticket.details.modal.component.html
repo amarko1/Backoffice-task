@@ -4,8 +4,8 @@
     <h2>{{'ticketDetails' | translate}}</h2>
     <p>{{'player' | translate}}: {{ getPlayerName(ticket.playerId) }}</p>
     <p>{{'createdAt' | translate}}: {{ ticket?.createdAt | dateFormat }}</p>
-    <h3>{{'bets' | translate}}:</h3>
-    <ul *ngIf="ticket?.bets && ticket.bets.length > 0">
+    <p>{{'bets' | translate}}: {{ticket?.bets}}</p>
+    <!--<ul *ngIf="ticket?.bets && ticket.bets.length > 0">
       <li *ngFor="let bet of ticket.bets">
         <p>{{'match' | translate}}: {{ bet.participants.join(' vs ') }}</p>
         <p>{{'odds' | translate}}: {{ bet.odds | number: '1.2-2' }}</p>
@@ -13,7 +13,7 @@
         <p [ngClass]="getStatusClass(bet?.status)">{{'status' | translate}}: {{ bet?.status }}</p>
         <p>{{'startAt' | translate}}: {{ bet.startAt | dateFormat }}</p>
       </li>
-    </ul>
+    </ul>-->
     <p>{{'payInAmount' | translate}}: {{ ticket?.payInAmount }}</p>
     <p>{{'payOutAmount' | translate}}: {{ ticket?.payOutAmount }}</p>
     <p>{{'currency' | translate}}: {{ ticket?.currency }}</p>

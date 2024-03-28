@@ -1,0 +1,38 @@
+<div class="centered-table-container" *ngIf="!isLoading" >
+
+  <table mat-table [dataSource]="dataSource" class="full-width-table">
+
+    <ng-container *ngFor="let column of tableConfiguration.properties" [matColumnDef]="column.name">
+
+      <th mat-header-cell *matHeaderCellDef> {{ column.name }} </th>
+      <td mat-cell *matCellDef="let element">
+
+        <ng-container [ngSwitch]="column.type">
+          <span *ngSwitchCase="PropertyType.Number">{{ element.data[columnMap[column.name]] | number }}</span>
+          <span *ngSwitchCase="PropertyType.DateTime">{{ element.data[columnMap[column.name]] | date:'medium' }}</span>
+          <span *ngSwitchCase="PropertyType.Boolean">{{ element.data[columnMap[column.name]] ? '✔️' : '❌' }}</span>
+          <span *ngSwitchCase="PropertyType.Text">
+          <ng-container *ngIf="column.name === 'Player'; else defaultText">
+            {{ getPlayerName(element.data['playerId']) }}
+          </ng-container>
+          <ng-template #defaultText>{{ element.data[columnMap[column.name]] }}</ng-template>
+        </span>
+        </ng-container>
+
+      </td>
+
+    </ng-container>
+
+    <ng-container *ngIf="tableConfiguration.action" matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> {{ tableConfiguration.action.name }} </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button (click)="tableConfiguration.action.action(element.data)">Details</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+</div>
+

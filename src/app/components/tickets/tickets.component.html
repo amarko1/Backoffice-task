@@ -1,11 +1,13 @@
 <app-navbar></app-navbar>
 <app-ticket-details-modal></app-ticket-details-modal>
+
 <app-filter-modal
   [filters]="filters"
   [showModal]="isFiltersModalOpen"
   (applyFilters)="applyFilters($event)"
   (closeFilters)="closeFiltersModal()">
 </app-filter-modal>
+
 <div class="filter-container">
   <form [formGroup]="filterForm" (ngSubmit)="onFilter()">
 
@@ -55,49 +57,32 @@
       <button type="button" (click)="reset()">{{ 'reset' | translate }}</button>
     </div>
 
-    <!--<div id="filterButton">
-      <button class="open-filters-btn" (click)="openFiltersModal()">Open Filters</button>
-    </div>-->
-
   </form>
 </div>
 
 <app-loader *ngIf="isLoading"></app-loader>
 
-<div *ngIf="!isLoading" class="centered-table-container">
-  <table>
-    <thead>
-    <tr>
-      <th>{{ 'player' | translate }}</th>
-      <th>{{ 'bets' | translate }}</th>
-      <th>{{ 'payInAmount' | translate }}</th>
-      <th>{{ 'payOutAmount' | translate }}</th>
-      <th>{{ 'currency' | translate }}</th>
-      <th>{{ 'status' | translate }}</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let ticket of filteredTickets">
-      <td>{{ getPlayerName(ticket.playerId) }}</td>
-      <td>
-        <ul>
-          <li *ngFor="let bet of ticket.bets">
-            {{ bet.participants.join(' vs ') }}: {{ bet.status }}
-            at: {{ bet.odds | number:'1.2-2' }} {{ 'odds' | translate }}
-          </li>
-        </ul>
-      </td>
-      <td>{{ ticket.payInAmount }}</td>
-      <td>{{ ticket.payOutAmount }}</td>
-      <td>{{ ticket.currency }}</td>
-      <td>
-        <h4 [ngClass]="getStatusClass(ticket?.status)">{{ ticket?.status }}</h4>
-      </td>
-      <td class="centered-content">
-          <button (click)="openTransactionDetails(ticket)">{{ 'details' | translate }}</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<app-table
+  [dataSource]="dataSource"
+  [tableConfiguration]="tableConfiguration"
+  [displayedColumns]="displayedColumns"
+  [columnMap]="columnMap"
+  [getPlayerName]="getPlayerName.bind(this)"
+  [isLoading]="isLoading"
+  (actionClicked)="openTransactionDetails($event)"
+>
+</app-table>
+
+
+
+
+
+
+
+
+
+
+
+
+
 

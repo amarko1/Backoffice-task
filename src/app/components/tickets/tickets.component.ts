@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Ticket} from "../../models/ticket.model";
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {Ticket, TicketStatus} from "../../models/ticket.model";
 import {tickets} from "../../data/ticket.data";
 import {TicketDetailsModalComponent} from "./modal/ticket.details.modal.component";
 import {Player} from "../../models/player.model";
@@ -35,13 +35,25 @@ export class TicketsComponent implements OnInit {
     {label: 'End date', value: 'endDate', checked: true},
   ]
 
+  protected readonly PropertyType = PropertyType;
   dataSource = new MatTableDataSource<TableItem>();
   tableConfiguration: TableConfiguration;
+  displayedColumns: string[] = [];
+  public columnMap = {
+    'Player': 'playerId',
+    'Bets': 'bets',
+    'Pay in': 'payInAmount',
+    'Pay out': 'payOutAmount',
+    'Currency': 'currency',
+    'Status': 'status'
+  };
 
-  constructor(
+
+constructor(
     private playerService: PlayerService,
     private ticketService: TicketService,
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.filterForm = this.fb.group({
       playerId: [null],
@@ -52,39 +64,8 @@ export class TicketsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tableConfiguration = new TableConfiguration(
-      '',
-      [
-        new TableConfigurationProperty('Player', '', PropertyType.Text),
-        new TableConfigurationProperty('Bets', '', PropertyType.Text),
-        new TableConfigurationProperty('Pay in', '', PropertyType.Number),
-        new TableConfigurationProperty('Pay out', '', PropertyType.Number),
-        new TableConfigurationProperty('Currency', '', PropertyType.Text),
-        new TableConfigurationProperty('Status', '', PropertyType.Text)
-      ],
-      {
-        name: "Details",
-        action: (element) => this.openTransactionDetails(element)
-      }
-    );
-
-    const filter = this.filterForm.value;
-    this.ticketService.getTickets(filter).subscribe(tickets => {
-      this.dataSource.data = tickets.map(ticket => new TableItem({
-        id: ticket.id,
-        playerId: ticket.playerId,
-        createdAt: ticket.createdAt,
-        payInAmount: ticket.payInAmount,
-        payOutAmount: ticket.payOutAmount,
-        currency: ticket.currency,
-        status: ticket.status,
-        bets: ticket.bets.map(bet => `${bet.participants.join(' vs ')}: ${bet.status} at ${bet.odds}`).join('\n')
-      }, PropertyType.Text));
-    });
-
-
-
-
+    this.prepareTableConfiguration();
+    this.loadItems();
 
     this.loadTickets();
     this.isLoading = true;
@@ -149,7 +130,6 @@ export class TicketsComponent implements OnInit {
   }
 
   applyFilters(filters: any[]) {
-    // Prođite kroz sve filtere i dodajte ili uklonite kontrolu ovisno o stanju checked
     filters.forEach(filter => {
       if (filter.checked && !this.filterForm.contains(filter.value)) {
         // Ako je filter odabran i kontrola ne postoji, dodajte kontrolu
@@ -170,4 +150,38 @@ export class TicketsComponent implements OnInit {
     this.isFiltersModalOpen = false;
   }
 
+  private prepareTableConfiguration() {
+    this.tableConfiguration = new TableConfiguration(
+      '',
+      [
+        new TableConfigurationProperty('Player', '', PropertyType.Text),
+        new TableConfigurationProperty('Bets', '', PropertyType.Text),
+        new TableConfigurationProperty('Pay in', '', PropertyType.Number),
+        new TableConfigurationProperty('Pay out', '', PropertyType.Number),
+        new TableConfigurationProperty('Currency', '', PropertyType.Text),
+        new TableConfigurationProperty('Status', '', PropertyType.Text)
+      ],
+      {
+        name: "Details",
+        action: (element) => this.openTransactionDetails(element)
+      }
+    );
+  }
+  private loadItems() {
+    const filter = this.filterForm.value;
+    this.ticketService.getTickets(filter).subscribe(tickets => {
+      this.dataSource.data = tickets.map(ticket => new TableItem({
+        id: ticket.id,
+        playerId: ticket.playerId,
+        createdAt: ticket.createdAt,
+        payInAmount: ticket.payInAmount,
+        payOutAmount: ticket.payOutAmount,
+        currency: ticket.currency,
+        status: ticket.status,
+        bets: ticket.bets.map(bet => `${bet.participants.join(' vs ')}: Won at ${bet.odds}`).join('\n')
+      }));
+      this.cdr.detectChanges();
+      console.log(this.dataSource.data);
+    });
+  }
 }

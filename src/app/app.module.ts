@@ -26,6 +26,8 @@ import {LoaderComponent} from "./components/loader/loader.component";
 import {FilterModalComponent} from "./components/modal/filter.modal.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
+import {MatButtonModule} from "@angular/material/button";
+import {GenericTableComponent} from "./components/table/table.component";
 
 registerLocaleData(localeHr);
 
@@ -62,7 +64,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TicketsComponent,
     TicketDetailsModalComponent,
     LoaderComponent,
-    FilterModalComponent
+    FilterModalComponent,
+    GenericTableComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +85,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatButtonModule
   ],
   exports: [],
   providers: [AuthGuard],
