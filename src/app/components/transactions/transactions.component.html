@@ -75,7 +75,18 @@
 
 <app-loader *ngIf="isLoading"></app-loader>
 
-<div *ngIf="!isLoading" class="centered-table-container">
+<app-table
+  [dataSource]="dataSource"
+  [tableConfiguration]="tableConfiguration"
+  [displayedColumns]="displayedColumns"
+  [columnMap]="columnMap"
+  [getPlayerName]="getPlayerName.bind(this)"
+  [isLoading]="isLoading"
+  (actionClicked)="openTransactionDetails($event)"
+>
+</app-table>
+
+<!--<div *ngIf="!isLoading" class="centered-table-container">
   <table>
     <thead>
     <tr>
@@ -99,4 +110,6 @@
     </tr>
     </tbody>
   </table>
-</div>
+</div>-->
+
+

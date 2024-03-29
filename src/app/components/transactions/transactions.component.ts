@@ -7,6 +7,13 @@ import {Player} from "../../models/player.model";
 import {TransactionService} from "../../services/transaction.service";
 import {filter} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {MatTableDataSource} from "@angular/material/table";
+import {
+  PropertyType,
+  TableConfiguration,
+  TableConfigurationProperty,
+  TableItem
+} from "../configuration/table.component.configuration";
 
 @Component({
   selector: 'app-transactions',
@@ -22,6 +29,17 @@ export class TransactionsComponent implements OnInit {
   @ViewChild(TransactionDetailsModalComponent) modal! :TransactionDetailsModalComponent;
   isLoading: boolean = true;
   filterForm: FormGroup;
+
+  dataSource = new MatTableDataSource<TableItem>();
+  tableConfiguration: TableConfiguration;
+  displayedColumns: string[] = [];
+  public columnMap = {
+    'External ID': 'externalId',
+    'Player': 'playerId',
+    'Type': 'type',
+    'Direction': 'direction',
+    'Provider': 'provider',
+  };
 
   constructor(private playerService: PlayerService,
               private transactionService: TransactionService,
@@ -39,13 +57,9 @@ export class TransactionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadTransactions();
-    this.isLoading = true;
-    this.playerService.getPlayers().subscribe((data) => {
-      this.players = data;
-      this.sortPlayers();
-      this.isLoading = false;
-    });
+    this.loadPlayers();
+    this.prepareTableConfiguration();
+    this.loadItems(this.filterForm.value);
   }
 
   sortPlayers() {
@@ -53,6 +67,13 @@ export class TransactionsComponent implements OnInit {
       const nameA = `${a.firstName} ${a.lastName}`;
       const nameB = `${b.firstName} ${b.lastName}`;
       return nameA.localeCompare(nameB);
+    });
+  }
+
+  loadPlayers(){
+    this.playerService.getPlayers().subscribe((data) => {
+      this.players = data;
+      this.sortPlayers();
     });
   }
 
@@ -68,17 +89,9 @@ export class TransactionsComponent implements OnInit {
   }
 
   onFilter() {
-    this.isLoading = true;
-    const formValues = this.filterForm.value;
-    this.transactionService.getTransactions(formValues).subscribe(transactions =>{
-      this.transactions = transactions;
-      this.isLoading = false;
-    });
+    const filter = this.filterForm.value;
+    this.loadItems(filter);
   }
-  loadTransactions(filters?: any) {
-    this.transactions = transactions;
-  }
-
   reset() {
     this.filterForm.reset({
       playerId: null,
@@ -89,6 +102,41 @@ export class TransactionsComponent implements OnInit {
       startDate: null,
       endDate: null,
     });
-    this.loadTransactions();
+    this.loadItems(this.filterForm.value);
+  }
+
+  private prepareTableConfiguration() {
+    this.tableConfiguration = new TableConfiguration(
+      '',
+      [
+        new TableConfigurationProperty('External ID', '', PropertyType.Text),
+        new TableConfigurationProperty('Player', '', PropertyType.Text),
+        new TableConfigurationProperty('Type', '', PropertyType.Text),
+        new TableConfigurationProperty('Direction', '', PropertyType.Text),
+        new TableConfigurationProperty('Provider', '', PropertyType.Text),
+      ],
+      {
+        name: "Details",
+        action: (element) => this.openTransactionDetails(element)
+      }
+    );
+  }
+
+  private loadItems(filter: any) {
+    this.isLoading = true;
+    this.transactionService.getTransactions(filter).subscribe(tickets => {
+      this.dataSource.data = tickets.map(transaction => new TableItem({
+        id: transaction.id,
+        externalId: transaction.externalId,
+        playerId: transaction.playerId,
+        createdAt: transaction.createdAt,
+        type: transaction.type,
+        direction: transaction.direction,
+        provider: transaction.provider,
+        amount: transaction.amount,
+        currency: transaction.currency
+      }));
+      this.isLoading = false;
+    });
   }
 }

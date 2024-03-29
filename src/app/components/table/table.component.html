@@ -1,3 +1,4 @@
+<!--
 <div class="centered-table-container" *ngIf="!isLoading" >
 
   <table mat-table [dataSource]="dataSource" class="full-width-table">
@@ -35,4 +36,31 @@
 
   </table>
 </div>
+-->
+
+<div class="centered-table-container" *ngIf="!isLoading">
+  <div class="table">
+    <div class="table-header">
+      <div class="table-cell table-cell-header" *ngFor="let column of tableConfiguration.properties">{{ column.name }}</div>
+      <div class="table-cell table-cell-header" *ngIf="tableConfiguration.action">{{ tableConfiguration.action.name }}</div>
+    </div>
+    <div class="table-row" *ngFor="let element of dataSource.data">
+      <div class="table-cell" *ngFor="let column of tableConfiguration.properties">
+        <span *ngIf="column.type === PropertyType.Number">{{ element.data[columnMap[column.name]] | number }}</span>
+        <span *ngIf="column.type === PropertyType.DateTime">{{ element.data[columnMap[column.name]] | date:'medium' }}</span>
+        <span *ngIf="column.type === PropertyType.Boolean">{{ element.data[columnMap[column.name]] ? '✔️' : '❌' }}</span>
+        <span *ngIf="column.type === PropertyType.Text && column.name === 'Player'">
+          {{ getPlayerName(element.data['playerId']) }}
+        </span>
+        <span *ngIf="column.type === 'Text' && column.name !== 'Player'">
+          {{ element.data[columnMap[column.name]] }}
+        </span>
+      </div>
+      <div class="table-cell table-cell-button" *ngIf="tableConfiguration.action">
+        <button (click)="tableConfiguration.action.action(element.data)">Details</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 

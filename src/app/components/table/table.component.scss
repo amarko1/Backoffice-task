@@ -1,4 +1,4 @@
-button {
+/*button {
   padding: 5px 10px;
   border: none;
   border-radius: 4px;
@@ -67,4 +67,95 @@ tr:nth-child(even) {
   text-align: center;
   font-size: larger;
   padding: 20px;
+}*/
+
+.centered-table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.centered-table-container .table {
+  width: 80%;
+  max-width: 1000px;
+  margin-top: 20px;
+  font-family: Corbel;
+}
+
+.centered-table-container .table-header,
+.centered-table-container .table-cell {
+  border: 1px solid #dddddd;
+  padding: 12px;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.centered-table-container .table-header {
+  background-color: #007bff;
+  color: white;
+  font-size: 1.1em;
+  display: table-row;
+}
+
+.centered-table-container .table-cell {
+  display: table-cell;
+  height: 50px;
+}
+
+.centered-table-container .table-row {
+  display: table-row;
+}
+
+.centered-table-container .table-row:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.centered-table-container .table-row:hover {
+  background-color: #e8f4ff;
+}
+
+button {
+  height: 35px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,123,255,0.3);
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+@media screen and (max-width: 768px) {
+  .centered-table-container .table {
+    width: 80%;
+  }
+
+  .centered-table-container .table-cell {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+}
+
+.loading-players {
+  text-align: center;
+  font-size: larger;
+  padding: 20px;
+}
+
+.table .table-cell.table-cell-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table-cell.table-cell-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

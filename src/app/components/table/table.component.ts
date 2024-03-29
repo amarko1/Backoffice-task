@@ -1,7 +1,7 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import {PropertyType, TableConfiguration, TableItem} from "../../configuration/table.configuration.models";
+import {PropertyType, TableConfiguration, TableItem} from "../configuration/table.component.configuration";
 
 @Component({
   selector: 'app-table',
@@ -23,12 +23,8 @@ export class GenericTableComponent implements OnInit {
     this.displayedColumns = this.tableConfiguration.properties
       .map(prop => prop.name);
     if (this.tableConfiguration.action) {
-      this.displayedColumns.push('action'); // Koristite 'action' kako ste originalno definirali
+      this.displayedColumns.push('action');
     }
-  }
-
-  onActionClick(element: any) {
-    this.actionClicked.emit(element); // Emitiranje događaja s podacima elementa
   }
 
 

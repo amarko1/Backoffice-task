@@ -12,7 +12,8 @@ import {
   TableConfiguration,
   TableConfigurationProperty,
   TableItem
-} from "../../configuration/table.configuration.models";
+} from "../configuration/table.component.configuration";
+import {tick} from "@angular/core/testing";
 
 @Component({
   selector: 'app-tickets',
@@ -35,7 +36,6 @@ export class TicketsComponent implements OnInit {
     {label: 'End date', value: 'endDate', checked: true},
   ]
 
-  protected readonly PropertyType = PropertyType;
   dataSource = new MatTableDataSource<TableItem>();
   tableConfiguration: TableConfiguration;
   displayedColumns: string[] = [];
@@ -52,8 +52,7 @@ export class TicketsComponent implements OnInit {
 constructor(
     private playerService: PlayerService,
     private ticketService: TicketService,
-    private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private fb: FormBuilder
   ) {
     this.filterForm = this.fb.group({
       playerId: [null],
@@ -64,16 +63,10 @@ constructor(
   }
 
   ngOnInit(): void {
+    this.loadPlayers();
+    const filter = this.filterForm.value;
     this.prepareTableConfiguration();
-    this.loadItems();
-
-    this.loadTickets();
-    this.isLoading = true;
-    this.playerService.getPlayers().subscribe((data) => {
-      this.players = data;
-      this.sortPlayers();
-      this.isLoading = false;
-    });
+    this.loadItems(filter);
   }
 
   sortPlayers() {
@@ -84,13 +77,16 @@ constructor(
     });
   }
 
+  loadPlayers(){
+    this.playerService.getPlayers().subscribe((data) => {
+      this.players = data;
+      this.sortPlayers();
+    });
+  }
+
   getPlayerName(playerId: string): string {
     const player = this.players.find(player => player.id === playerId);
     return player ? `${player.firstName} ${player.lastName}` : 'Unknown Player';
-  }
-
-  loadTickets(filters?: any) {
-    this.filteredTickets = tickets;
   }
 
   openTransactionDetails(ticket: Ticket) {
@@ -100,22 +96,17 @@ constructor(
   }
 
   onFilter() {
-    this.isLoading = true;
-    const filter = this.filterForm.value;
-    this.ticketService.getTickets(filter).subscribe(tickets => {
-      this.filteredTickets = tickets;
-      this.isLoading = false;
-    })
+    this.loadItems(this.filterForm.value);
   }
 
   reset() {
-    this.filterForm.reset({
+     this.filterForm.reset({
       playerId: null,
       status: null,
       startDate: null,
       endDate: null
     });
-    this.loadTickets();
+    this.loadItems(this.filterForm.value);
   }
 
   getStatusClass(status: string): string {
@@ -167,8 +158,8 @@ constructor(
       }
     );
   }
-  private loadItems() {
-    const filter = this.filterForm.value;
+  private loadItems(filter: any) {
+    this.isLoading = true;
     this.ticketService.getTickets(filter).subscribe(tickets => {
       this.dataSource.data = tickets.map(ticket => new TableItem({
         id: ticket.id,
@@ -180,8 +171,7 @@ constructor(
         status: ticket.status,
         bets: ticket.bets.map(bet => `${bet.participants.join(' vs ')}: Won at ${bet.odds}`).join('\n')
       }));
-      this.cdr.detectChanges();
-      console.log(this.dataSource.data);
+      this.isLoading = false;
     });
   }
 }
