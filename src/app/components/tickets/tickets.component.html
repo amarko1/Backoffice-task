@@ -16,7 +16,7 @@
     </div>
 
     <div *ngIf="filterForm.contains('playerId')">
-      <label>{{ 'player' | translate }}:</label>
+      <label>{{ 'playerId' | translate }}:</label>
       <ng-select
         formControlName="playerId"
         [editableSearchTerm]="true"
@@ -66,7 +66,6 @@
   [dataSource]="dataSource"
   [tableConfiguration]="tableConfiguration"
   [displayedColumns]="displayedColumns"
-  [columnMap]="columnMap"
   [getPlayerName]="getPlayerName.bind(this)"
   [isLoading]="isLoading"
   (actionClicked)="openTransactionDetails($event)"

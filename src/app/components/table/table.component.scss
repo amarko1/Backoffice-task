@@ -1,5 +1,5 @@
-/*button {
-  padding: 5px 10px;
+button {
+  padding: 10px 15px;
   border: none;
   border-radius: 4px;
   background-color: #007bff;
@@ -20,10 +20,11 @@ button:hover {
 }
 
 .centered-table-container table {
-  width: 90%;
+  width: 70%;
   max-width: 1000px;
   border-collapse: collapse;
   margin-top: 20px;
+  margin-bottom: 50px;
   font-family: Corbel;
 }
 
@@ -32,7 +33,7 @@ table, th, td {
 }
 
 th, td {
-  height: 70px;
+  height: 50px;
   text-align: left;
   padding: 12px;
   white-space: nowrap;
@@ -67,8 +68,28 @@ tr:nth-child(even) {
   text-align: center;
   font-size: larger;
   padding: 20px;
-}*/
+}
 
+.button-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 0;
+}
+
+td.mat-cell{
+  padding: 10px;
+}
+
+td.mat-cell:first-of-type{
+  padding-right: 10px;
+}
+
+td.mat-cell:last-of-type{
+  padding-right: 10px;
+}
+
+/*
 .centered-table-container {
   display: flex;
   justify-content: center;
@@ -76,7 +97,6 @@ tr:nth-child(even) {
 }
 
 .centered-table-container .table {
-  width: 80%;
   max-width: 1000px;
   margin-top: 20px;
   font-family: Corbel;
@@ -158,4 +178,5 @@ button:hover {
   justify-content: center;
   align-items: center;
 }
+*/
 

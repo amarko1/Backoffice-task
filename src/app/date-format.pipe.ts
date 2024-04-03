@@ -22,5 +22,4 @@ export class DateFormatPipe implements PipeTransform {
     };
     return formats[this.translate.currentLang] || 'dd/MM/yyyy, HH:mm';
   }
-
 }

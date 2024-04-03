@@ -1,6 +1,5 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {Ticket, TicketStatus} from "../../models/ticket.model";
-import {tickets} from "../../data/ticket.data";
+import {Component, NgModule, OnInit, ViewChild} from '@angular/core';
+import {Ticket} from "../../models/ticket.model";
 import {TicketDetailsModalComponent} from "./modal/ticket.details.modal.component";
 import {Player} from "../../models/player.model";
 import {PlayerService} from "../../services/player.service";
@@ -13,7 +12,6 @@ import {
   TableConfigurationProperty,
   TableItem
 } from "../configuration/table.component.configuration";
-import {tick} from "@angular/core/testing";
 
 @Component({
   selector: 'app-tickets',
@@ -39,15 +37,15 @@ export class TicketsComponent implements OnInit {
   dataSource = new MatTableDataSource<TableItem>();
   tableConfiguration: TableConfiguration;
   displayedColumns: string[] = [];
-  public columnMap = {
+
+  /*public columnMap = {
     'Player': 'playerId',
     'Bets': 'bets',
     'Pay in': 'payInAmount',
     'Pay out': 'payOutAmount',
     'Currency': 'currency',
     'Status': 'status'
-  };
-
+  };*/
 
 constructor(
     private playerService: PlayerService,
@@ -67,6 +65,7 @@ constructor(
     const filter = this.filterForm.value;
     this.prepareTableConfiguration();
     this.loadItems(filter);
+    this.checkForSavedFilters();
   }
 
   sortPlayers() {
@@ -130,7 +129,40 @@ constructor(
         this.filterForm.removeControl(filter.value);
       }
     });
+    const filtersState = filters.reduce((acc, curr) => {
+      acc[curr.value] = curr.checked;
+      return acc;
+    }, {});
+    localStorage.setItem('filtersState', JSON.stringify(filtersState));
+
     this.closeFiltersModal();
+  }
+
+  checkForSavedFilters() {
+    const savedFiltersState = JSON.parse(localStorage.getItem('filtersState'));
+
+    if (savedFiltersState) {
+      this.filters = this.filters.map(filter => {
+        const isChecked = !!savedFiltersState[filter.value];
+        if (isChecked) {
+          if (!this.filterForm.contains(filter.value)) {
+            this.filterForm.addControl(filter.value, this.fb.control(null));
+          }
+        } else {
+          if (this.filterForm.contains(filter.value)) {
+            this.filterForm.removeControl(filter.value);
+          }
+        }
+        return { ...filter, checked: isChecked };
+      });
+    } else {
+      this.filters.forEach(filter => {
+        filter.checked = true;
+        if (!this.filterForm.contains(filter.value)) {
+          this.filterForm.addControl(filter.value, this.fb.control(null));
+        }
+      });
+    }
   }
 
   openFiltersModal() {
@@ -143,17 +175,16 @@ constructor(
 
   private prepareTableConfiguration() {
     this.tableConfiguration = new TableConfiguration(
-      '',
       [
-        new TableConfigurationProperty('Player', '', PropertyType.Text),
-        new TableConfigurationProperty('Bets', '', PropertyType.Text),
-        new TableConfigurationProperty('Pay in', '', PropertyType.Number),
-        new TableConfigurationProperty('Pay out', '', PropertyType.Number),
-        new TableConfigurationProperty('Currency', '', PropertyType.Text),
-        new TableConfigurationProperty('Status', '', PropertyType.Text)
+        new TableConfigurationProperty('Player', 'playerId', PropertyType.Text),
+        new TableConfigurationProperty('Bets', 'bets', PropertyType.Text),
+        new TableConfigurationProperty('Pay in', 'payInAmount', PropertyType.Number),
+        new TableConfigurationProperty('Pay out', 'payOutAmount', PropertyType.Number),
+        new TableConfigurationProperty('Currency', 'currency', PropertyType.Text),
+        new TableConfigurationProperty('Status', 'status', PropertyType.Text)
       ],
       {
-        name: "Details",
+        name: "details",
         action: (element) => this.openTransactionDetails(element)
       }
     );

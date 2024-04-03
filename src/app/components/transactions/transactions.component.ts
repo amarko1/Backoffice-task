@@ -1,11 +1,9 @@
 import {Component, OnInit, ViewChild } from '@angular/core';
 import {Transaction} from "../../models/transaction.model";
-import {transactions} from "../../data/transaction.data";
 import {TransactionDetailsModalComponent} from "./modal/transaction.details.modal.component";
 import {PlayerService} from "../../services/player.service";
 import {Player} from "../../models/player.model";
 import {TransactionService} from "../../services/transaction.service";
-import {filter} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatTableDataSource} from "@angular/material/table";
 import {
@@ -22,7 +20,6 @@ import {
 })
 
 export class TransactionsComponent implements OnInit {
-  filters: any = { playerId:'',type:'', direction: '', provider:'' };
   transactions: Transaction[] = [];
   players: Player[] = [];
   selectedTransaction: Transaction | null = null;
@@ -33,13 +30,13 @@ export class TransactionsComponent implements OnInit {
   dataSource = new MatTableDataSource<TableItem>();
   tableConfiguration: TableConfiguration;
   displayedColumns: string[] = [];
-  public columnMap = {
+ /* public columnMap = {
     'External ID': 'externalId',
     'Player': 'playerId',
     'Type': 'type',
     'Direction': 'direction',
     'Provider': 'provider',
-  };
+  };*/
 
   constructor(private playerService: PlayerService,
               private transactionService: TransactionService,
@@ -107,16 +104,15 @@ export class TransactionsComponent implements OnInit {
 
   private prepareTableConfiguration() {
     this.tableConfiguration = new TableConfiguration(
-      '',
       [
-        new TableConfigurationProperty('External ID', '', PropertyType.Text),
-        new TableConfigurationProperty('Player', '', PropertyType.Text),
-        new TableConfigurationProperty('Type', '', PropertyType.Text),
-        new TableConfigurationProperty('Direction', '', PropertyType.Text),
-        new TableConfigurationProperty('Provider', '', PropertyType.Text),
+        new TableConfigurationProperty('External ID', 'externalId', PropertyType.Text),
+        new TableConfigurationProperty('Player', 'playerId', PropertyType.Text),
+        new TableConfigurationProperty('Type', 'type', PropertyType.Text),
+        new TableConfigurationProperty('Direction', 'direction', PropertyType.Text),
+        new TableConfigurationProperty('Provider', 'provider', PropertyType.Text),
       ],
       {
-        name: "Details",
+        name: "details",
         action: (element) => this.openTransactionDetails(element)
       }
     );

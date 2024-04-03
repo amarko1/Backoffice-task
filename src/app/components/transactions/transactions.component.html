@@ -5,7 +5,7 @@
     <label>{{ 'externalId' | translate }}:</label>
     <input formControlName="externalId" type="text" name="externalId" placeholder="External ID">
 
-    <label>{{ 'player' | translate }}:</label>
+    <label>{{ 'playerId' | translate }}:</label>
     <ng-select
       formControlName="playerId"
       [editableSearchTerm]="true"
@@ -79,7 +79,6 @@
   [dataSource]="dataSource"
   [tableConfiguration]="tableConfiguration"
   [displayedColumns]="displayedColumns"
-  [columnMap]="columnMap"
   [getPlayerName]="getPlayerName.bind(this)"
   [isLoading]="isLoading"
   (actionClicked)="openTransactionDetails($event)"

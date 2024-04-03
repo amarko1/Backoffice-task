@@ -6,8 +6,7 @@ export enum PropertyType {
 }
 
 export class TableConfiguration {
-  constructor(public prefix: string,
-              public properties: TableConfigurationProperty[],
+  constructor(public properties: TableConfigurationProperty[],
               public action: any)
   {}
 }

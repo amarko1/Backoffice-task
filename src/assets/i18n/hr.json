@@ -7,7 +7,7 @@
   "transactions": "Transakcije",
   "tickets": "Tiketi",
   "logout": "Odjava",
-  "player": "Igrac",
+  "playerId": "Igrac",
   "externalId": "External ID",
   "type": "Tip",
   "direction": "Smjer",
@@ -49,5 +49,7 @@
   "filterModal": "Izaberite filtere za prikaz",
   "apply": "Spremi",
   "close": "Zatvori",
-  "filterLabel": "Filteri"
+  "filterLabel": "Filteri",
+  "payIn": "Uplata",
+  "payOut": "Isplata"
 }
