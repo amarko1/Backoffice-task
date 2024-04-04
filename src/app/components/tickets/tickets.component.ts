@@ -12,6 +12,7 @@ import {
   TableConfigurationProperty,
   TableItem
 } from "../configuration/table.component.configuration";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-tickets',
@@ -21,7 +22,7 @@ import {
 export class TicketsComponent implements OnInit {
   @ViewChild(TicketDetailsModalComponent) modal!: TicketDetailsModalComponent;
   filterForm: FormGroup;
-  filteredTickets: Ticket[] = [];
+  tickets: Ticket[] = [];
   players: Player[] = [];
   selectedTickets: Ticket | null = null;
   isLoading: boolean = true;
@@ -33,19 +34,9 @@ export class TicketsComponent implements OnInit {
     {label: 'Start date', value: 'startDate', checked: true},
     {label: 'End date', value: 'endDate', checked: true},
   ]
-
   dataSource = new MatTableDataSource<TableItem>();
   tableConfiguration: TableConfiguration;
   displayedColumns: string[] = [];
-
-  /*public columnMap = {
-    'Player': 'playerId',
-    'Bets': 'bets',
-    'Pay in': 'payInAmount',
-    'Pay out': 'payOutAmount',
-    'Currency': 'currency',
-    'Status': 'status'
-  };*/
 
 constructor(
     private playerService: PlayerService,

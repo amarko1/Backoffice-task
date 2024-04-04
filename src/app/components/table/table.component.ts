@@ -5,25 +5,29 @@ import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output
 import {MatTableDataSource} from '@angular/material/table';
 import {PropertyType, TableConfiguration, TableItem} from "../configuration/table.component.configuration";
 import {MatSort, Sort} from "@angular/material/sort";
+import {MatPaginator} from "@angular/material/paginator";
+import {TableSortingService} from "../../services/table.sorting.service";
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['table.component.scss']
 })
-export class GenericTableComponent implements OnInit, AfterViewInit {
+export class GenericTableComponent implements OnInit {
   protected readonly PropertyType = PropertyType;
   @Input() isLoading: boolean = false;
   @Input() items: any[];
   @Input() dataSource: MatTableDataSource<TableItem>;
+  @Input() displayedColumns: string[];
   @Input() tableConfiguration: TableConfiguration;
   @Input() getPlayerName: (playerId: string) => string;
-  @Input() displayedColumns: string[];
   @Output() actionClicked = new EventEmitter<any>();
-  @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {
-  }
+  sortColumn: string | null = null;
+  sortDirection: 'asc' | 'desc' | null = null;
+
+  constructor(private sortingService: TableSortingService) {}
+
   ngOnInit() {
     this.displayedColumns = this.tableConfiguration.properties
       .map(prop => prop.name);
@@ -32,7 +36,14 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+  onSort(columnName: string) {
+    if (this.sortColumn === columnName) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = columnName;
+      this.sortDirection = 'asc';
+    }
+    this.sortingService.sortData(this.dataSource, this.sortColumn, this.sortDirection);
   }
 }
+

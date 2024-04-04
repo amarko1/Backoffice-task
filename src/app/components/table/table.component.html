@@ -2,14 +2,22 @@
 
   <table
     mat-table
-    matSort
     [dataSource]="dataSource"
     class="full-width-table"
   >
 
     <ng-container *ngFor="let column of tableConfiguration.properties" [matColumnDef]="column.name">
 
-      <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.name"> {{ column.suffix | translate }} </th>
+      <th mat-header-cell *matHeaderCellDef (click)="onSort(column.suffix)">
+        {{ column.suffix | translate }}
+        <span *ngIf="sortColumn === column.suffix">
+          <mat-icon *ngIf="sortDirection === 'asc'">arrow_upward</mat-icon>
+          <mat-icon *ngIf="sortDirection === 'desc'">arrow_downward</mat-icon>
+        </span>
+        <span *ngIf="sortColumn !== column.suffix" class="sort-indicator">
+          <mat-icon>arrow_upward</mat-icon>
+        </span>
+      </th>
       <td mat-cell *matCellDef="let element">
 
         <ng-container [ngSwitch]="column.type">

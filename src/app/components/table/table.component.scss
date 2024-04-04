@@ -89,6 +89,16 @@ td.mat-cell:last-of-type{
   padding-right: 10px;
 }
 
+.sort-indicator {
+  visibility: hidden;
+  color: #cccccc;
+}
+
+th:hover .sort-indicator {
+  visibility: visible;
+  cursor: pointer;
+}
+
 /*
 .centered-table-container {
   display: flex;

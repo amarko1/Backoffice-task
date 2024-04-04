@@ -62,6 +62,7 @@
 
 <app-loader *ngIf="isLoading"></app-loader>
 
+
 <app-table
   [dataSource]="dataSource"
   [tableConfiguration]="tableConfiguration"
@@ -71,6 +72,8 @@
   (actionClicked)="openTransactionDetails($event)"
 >
 </app-table>
+
+
 
 
 
