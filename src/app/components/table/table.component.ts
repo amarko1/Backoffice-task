@@ -1,11 +1,6 @@
-
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {PropertyType, TableConfiguration, TableItem} from "../configuration/table.component.configuration";
-import {MatSort, Sort} from "@angular/material/sort";
-import {MatPaginator} from "@angular/material/paginator";
 import {TableSortingService} from "../../services/table.sorting.service";
 
 @Component({

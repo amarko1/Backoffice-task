@@ -39,7 +39,7 @@
     <ng-container *ngIf="tableConfiguration.action" matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> {{ tableConfiguration.action.name | translate }} </th>
       <td class="button-container" mat-cell *matCellDef="let element">
-        <button class="button" mat-button (click)="tableConfiguration.action.action(element.data)">{{'details' | translate}}</button>
+        <button class="button" (click)="tableConfiguration.action.action(element.data)">{{'details' | translate}}</button>
       </td>
     </ng-container>
 

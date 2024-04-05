@@ -99,24 +99,11 @@ constructor(
     this.loadItems(this.filterForm.value);
   }
 
-  getStatusClass(status: string): string {
-    switch (status) {
-      case 'Won':
-        return 'status-won';
-      case 'Lost':
-        return 'status-lost';
-      default:
-        return 'status-other';
-    }
-  }
-
   applyFilters(filters: any[]) {
     filters.forEach(filter => {
       if (filter.checked && !this.filterForm.contains(filter.value)) {
-        // Ako je filter odabran i kontrola ne postoji, dodajte kontrolu
         this.filterForm.addControl(filter.value, this.fb.control(null));
       } else if (!filter.checked && this.filterForm.contains(filter.value)) {
-        // Ako filter nije odabran i kontrola postoji, uklonite kontrolu
         this.filterForm.removeControl(filter.value);
       }
     });
@@ -191,7 +178,7 @@ constructor(
         payOutAmount: ticket.payOutAmount,
         currency: ticket.currency,
         status: ticket.status,
-        bets: ticket.bets.map(bet => `${bet.participants.join(' vs ')}: Won at ${bet.odds}`).join('\n')
+        bets: ticket.bets.map(bet => `${bet.participants.join(' vs ')}: Won at ${bet.odds} ${'\n'}`).join('\n')
       }));
       this.isLoading = false;
     });
