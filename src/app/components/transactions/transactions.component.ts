@@ -30,13 +30,8 @@ export class TransactionsComponent implements OnInit {
   dataSource = new MatTableDataSource<TableItem>();
   tableConfiguration: TableConfiguration;
   displayedColumns: string[] = [];
- /* public columnMap = {
-    'External ID': 'externalId',
-    'Player': 'playerId',
-    'Type': 'type',
-    'Direction': 'direction',
-    'Provider': 'provider',
-  };*/
+  items: any[];
+
 
   constructor(private playerService: PlayerService,
               private transactionService: TransactionService,
@@ -118,21 +113,12 @@ export class TransactionsComponent implements OnInit {
     );
   }
 
-  private loadItems(filter: any) {
+  private loadItems(filter: any){
     this.isLoading = true;
-    this.transactionService.getTransactions(filter).subscribe(tickets => {
-      this.dataSource.data = tickets.map(transaction => new TableItem({
-        id: transaction.id,
-        externalId: transaction.externalId,
-        playerId: transaction.playerId,
-        createdAt: transaction.createdAt,
-        type: transaction.type,
-        direction: transaction.direction,
-        provider: transaction.provider,
-        amount: transaction.amount,
-        currency: transaction.currency
-      }));
+    this.transactionService.getTransactions(filter).subscribe(transactions => {
+      console.log('Tickets loaded:', transactions)
+      this.items = transactions;
       this.isLoading = false;
-    });
+    })
   }
 }

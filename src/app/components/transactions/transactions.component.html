@@ -76,9 +76,8 @@
 <app-loader *ngIf="isLoading"></app-loader>
 
 <app-table
-  [dataSource]="dataSource"
+  [items]="items"
   [tableConfiguration]="tableConfiguration"
-  [displayedColumns]="displayedColumns"
   [getPlayerName]="getPlayerName.bind(this)"
   [isLoading]="isLoading"
   (actionClicked)="openTransactionDetails($event)"

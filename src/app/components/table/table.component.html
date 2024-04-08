@@ -1,4 +1,4 @@
-<div class="centered-table-container" *ngIf="!isLoading" >
+<div class="centered-table-container" *ngIf="!isLoading && items.length > 0" >
 
   <table
     mat-table
@@ -6,7 +6,7 @@
     class="full-width-table"
   >
 
-    <ng-container *ngFor="let column of tableConfiguration.properties" [matColumnDef]="column.name">
+    <ng-container *ngFor="let column of tableConfiguration.properties" [matColumnDef]="column.suffix">
 
       <th mat-header-cell *matHeaderCellDef (click)="onSort(column.suffix)">
         {{ column.suffix | translate }}
@@ -22,13 +22,13 @@
 
         <ng-container [ngSwitch]="column.type">
           <span *ngSwitchCase="PropertyType.Number">{{ element.data[column.suffix] | number }}</span>
-          <span *ngSwitchCase="PropertyType.DateTime">{{ element.data[column.suffix] | dateFormat }}</span>
-          <span *ngSwitchCase="PropertyType.Boolean">{{ element.data[column.suffix] ? '✔️' : '❌' }}</span>
+          <span *ngSwitchCase="PropertyType.DateTime">{{ element.data?.[column.suffix] | dateFormat }}</span>
+          <span *ngSwitchCase="PropertyType.Boolean">{{ element.data?.[column.suffix] ? '✔️' : '❌' }}</span>
           <span *ngSwitchCase="PropertyType.Text">
             <ng-container *ngIf="column.suffix === 'playerId'; else defaultText">
-              {{ getPlayerName(element.data['playerId']) }}
+              {{ getPlayerName(element.data?.['playerId']) }}
             </ng-container>
-            <ng-template #defaultText>{{ element.data[column.suffix] }}</ng-template>
+            <ng-template #defaultText>{{ element.data?.[column.suffix] }}</ng-template>
           </span>
         </ng-container>
 

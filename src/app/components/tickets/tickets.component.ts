@@ -1,4 +1,4 @@
-import {Component, NgModule, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, NgModule, NgZone, OnInit, ViewChild} from '@angular/core';
 import {Ticket} from "../../models/ticket.model";
 import {TicketDetailsModalComponent} from "./modal/ticket.details.modal.component";
 import {Player} from "../../models/player.model";
@@ -12,7 +12,7 @@ import {
   TableConfigurationProperty,
   TableItem
 } from "../configuration/table.component.configuration";
-import {MatSort} from "@angular/material/sort";
+
 
 @Component({
   selector: 'app-tickets',
@@ -37,11 +37,13 @@ export class TicketsComponent implements OnInit {
   dataSource = new MatTableDataSource<TableItem>();
   tableConfiguration: TableConfiguration;
   displayedColumns: string[] = [];
+  items: any[];
 
 constructor(
     private playerService: PlayerService,
     private ticketService: TicketService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdRef: ChangeDetectorRef
   ) {
     this.filterForm = this.fb.group({
       playerId: [null],
@@ -51,11 +53,11 @@ constructor(
     });
   }
 
-  ngOnInit(): void {
-    this.loadPlayers();
-    const filter = this.filterForm.value;
+  ngOnInit() {
     this.prepareTableConfiguration();
+    const filter = this.filterForm.value;
     this.loadItems(filter);
+    this.loadPlayers();
     this.checkForSavedFilters();
   }
 
@@ -167,20 +169,13 @@ constructor(
       }
     );
   }
-  private loadItems(filter: any) {
+
+  private loadItems(filter: any){
     this.isLoading = true;
     this.ticketService.getTickets(filter).subscribe(tickets => {
-      this.dataSource.data = tickets.map(ticket => new TableItem({
-        id: ticket.id,
-        playerId: ticket.playerId,
-        createdAt: ticket.createdAt,
-        payInAmount: ticket.payInAmount,
-        payOutAmount: ticket.payOutAmount,
-        currency: ticket.currency,
-        status: ticket.status,
-        bets: ticket.bets.map(bet => `${bet.participants.join(' vs ')}: Won at ${bet.odds} ${'\n'}`).join('\n')
-      }));
+      console.log('Tickets loaded:', tickets)
+      this.items = tickets;
       this.isLoading = false;
-    });
+    })
   }
 }
