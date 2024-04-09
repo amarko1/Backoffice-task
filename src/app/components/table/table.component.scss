@@ -17,6 +17,7 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .centered-table-container table {
@@ -102,6 +103,11 @@ th:hover .sort-indicator {
   visibility: visible;
   cursor: pointer;
 }
+
+mat-paginator {
+  margin-bottom: 20px;
+}
+
 
 /*
 .centered-table-container {

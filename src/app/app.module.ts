@@ -28,7 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {GenericTableComponent} from "./components/table/table.component";
-import {MatSortModule} from "@angular/material/sort";
+import {MatSort, MatSortModule} from "@angular/material/sort";
 import {MatIconModule} from "@angular/material/icon";
 
 registerLocaleData(localeHr);
@@ -78,7 +78,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharedModuleModule,
     NgSelectModule,
     FontAwesomeModule,
-    MatSortModule,
     MatIconModule,
     MatTableModule,
     TranslateModule.forRoot({

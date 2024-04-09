@@ -1,13 +1,18 @@
 <div class="centered-table-container" *ngIf="!isLoading && items.length > 0" >
 
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"  showFirstLastButtons></mat-paginator>
+
   <table
     mat-table
+    matSort
     [dataSource]="dataSource"
     class="full-width-table"
   >
 
+    //definition
     <ng-container *ngFor="let column of tableConfiguration.properties" [matColumnDef]="column.suffix">
 
+      //table header
       <th mat-header-cell *matHeaderCellDef (click)="onSort(column.suffix)">
         {{ column.suffix | translate }}
         <span *ngIf="sortColumn === column.suffix">
@@ -18,24 +23,26 @@
           <mat-icon>arrow_upward</mat-icon>
         </span>
       </th>
-      <td mat-cell *matCellDef="let element">
+
+      //table body
+      <td mat-cell *matCellDef="let tableItem">
 
         <ng-container [ngSwitch]="column.type">
-          <span *ngSwitchCase="PropertyType.Number">{{ element.data[column.suffix] | number }}</span>
-          <span *ngSwitchCase="PropertyType.DateTime">{{ element.data?.[column.suffix] | dateFormat }}</span>
-          <span *ngSwitchCase="PropertyType.Boolean">{{ element.data?.[column.suffix] ? '✔️' : '❌' }}</span>
+          <span *ngSwitchCase="PropertyType.Number">{{ tableItem.data[column.suffix] | number }}</span>
+          <span *ngSwitchCase="PropertyType.DateTime">{{ tableItem.data[column.suffix] | dateFormat }}</span>
+          <span *ngSwitchCase="PropertyType.Boolean">{{ tableItem.data[column.suffix] ? '✔️' : '❌' }}</span>
           <span *ngSwitchCase="PropertyType.Text">
             <ng-container *ngIf="column.suffix === 'playerId'; else checkBets">
-              {{ getPlayerName(element.data?.['playerId']) }}
+              {{ getPlayerName(tableItem.data['playerId']) }}
             </ng-container>
             <ng-template #checkBets>
               <ng-container *ngIf="column.suffix === 'bets'; else defaultText">
-                  <span *ngFor="let bet of element.data?.['bets']" style="display: block">
+                  <span *ngFor="let bet of tableItem.data['bets']" style="display: block">
                      {{ bet.participants.join(' vs ') }} - {{'odds' | translate}}: {{ bet.odds | number: "1.2" }}
                   </span>
               </ng-container>
             </ng-template>
-            <ng-template #defaultText>{{ element.data?.[column.suffix] }}</ng-template>
+            <ng-template #defaultText>{{ tableItem.data[column.suffix] }}</ng-template>
           </span>
         </ng-container>
 
@@ -54,7 +61,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
   </table>
-  <!--<mat-paginator [pageSizeOptions]="[2, 5, 10, 20]" showFirstLastButtons></mat-paginator>-->
+
 </div>
 
 <!--<div class="centered-table-container" *ngIf="!isLoading">

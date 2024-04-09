@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {Transaction} from "../../models/transaction.model";
-import {TransactionService} from "../../services/transaction.service";
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {transactions} from "../../data/transaction.data";
 import {tickets} from "../../data/ticket.data";

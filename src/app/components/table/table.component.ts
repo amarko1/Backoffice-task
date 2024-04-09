@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -20,7 +19,7 @@ import {MatSort} from "@angular/material/sort";
   templateUrl: './table.component.html',
   styleUrls: ['table.component.scss']
 })
-export class GenericTableComponent implements OnInit, OnChanges,AfterViewInit  {
+export class GenericTableComponent implements OnInit, OnChanges  {
   protected readonly PropertyType = PropertyType;
   @Input() isLoading: boolean = false;
   @Input() items: any[];
@@ -30,18 +29,28 @@ export class GenericTableComponent implements OnInit, OnChanges,AfterViewInit  {
   @Input() getPlayerName: (playerId: string) => string;
   @Output() actionClicked = new EventEmitter<any>();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
   sortColumn: string | null = null;
   sortDirection: 'asc' | 'desc' | null = null;
 
   constructor(private sortingService: TableSortingService, private cdRef: ChangeDetectorRef) {
   }
 
-  ngAfterViewInit(): void {
+  private paginator: MatPaginator;
+  private sort: MatSort;
+
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
+
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+
+  setDataSourceAttributes() {
     this.dataSource.paginator = this.paginator;
-    this.cdRef.detectChanges();
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit() {
