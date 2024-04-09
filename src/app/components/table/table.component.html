@@ -25,9 +25,16 @@
           <span *ngSwitchCase="PropertyType.DateTime">{{ element.data?.[column.suffix] | dateFormat }}</span>
           <span *ngSwitchCase="PropertyType.Boolean">{{ element.data?.[column.suffix] ? '✔️' : '❌' }}</span>
           <span *ngSwitchCase="PropertyType.Text">
-            <ng-container *ngIf="column.suffix === 'playerId'; else defaultText">
+            <ng-container *ngIf="column.suffix === 'playerId'; else checkBets">
               {{ getPlayerName(element.data?.['playerId']) }}
             </ng-container>
+            <ng-template #checkBets>
+              <ng-container *ngIf="column.suffix === 'bets'; else defaultText">
+                  <span *ngFor="let bet of element.data?.['bets']" style="display: block">
+                     {{ bet.participants.join(' vs ') }} - {{'odds' | translate}}: {{ bet.odds | number: "1.2" }}
+                  </span>
+              </ng-container>
+            </ng-template>
             <ng-template #defaultText>{{ element.data?.[column.suffix] }}</ng-template>
           </span>
         </ng-container>
@@ -47,6 +54,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
   </table>
+  <!--<mat-paginator [pageSizeOptions]="[2, 5, 10, 20]" showFirstLastButtons></mat-paginator>-->
 </div>
 
 <!--<div class="centered-table-container" *ngIf="!isLoading">

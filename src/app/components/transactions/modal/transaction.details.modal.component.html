@@ -3,7 +3,7 @@
     <button (click)="closeModal()">X</button>
     <h2>{{'transactionDetails' | translate}}</h2>
     <p>{{'externalId' | translate}}: {{transaction?.externalId}}</p>
-    <p>{{'player' | translate}}: {{getPlayerName(transaction?.playerId)}}</p>
+    <p>{{'playerId' | translate}}: {{getPlayerName(transaction?.playerId)}}</p>
     <p>{{'type' | translate}}: {{transaction?.type}}</p>
     <p>{{'direction' | translate}}: {{transaction?.direction}}</p>
     <p>{{'provider' | translate}}: {{transaction?.provider}}</p>

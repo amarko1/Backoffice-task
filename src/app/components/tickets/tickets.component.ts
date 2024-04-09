@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, NgModule, NgZone, OnInit, ViewChild} from '@angular/core';
-import {Ticket} from "../../models/ticket.model";
+import {Ticket, TicketBet} from "../../models/ticket.model";
 import {TicketDetailsModalComponent} from "./modal/ticket.details.modal.component";
 import {Player} from "../../models/player.model";
 import {PlayerService} from "../../services/player.service";
@@ -24,6 +24,7 @@ export class TicketsComponent implements OnInit {
   filterForm: FormGroup;
   tickets: Ticket[] = [];
   players: Player[] = [];
+  bets: TicketBet[] = [];
   selectedTickets: Ticket | null = null;
   isLoading: boolean = true;
   isFiltersModalOpen = false;
@@ -156,6 +157,7 @@ constructor(
   private prepareTableConfiguration() {
     this.tableConfiguration = new TableConfiguration(
       [
+        new TableConfigurationProperty('Created at', 'createdAt', PropertyType.DateTime),
         new TableConfigurationProperty('Player', 'playerId', PropertyType.Text),
         new TableConfigurationProperty('Bets', 'bets', PropertyType.Text),
         new TableConfigurationProperty('Pay in', 'payInAmount', PropertyType.Number),

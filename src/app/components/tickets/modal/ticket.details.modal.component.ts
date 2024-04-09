@@ -42,7 +42,7 @@ export class TicketDetailsModalComponent implements OnInit {
   loadLinkedTransactions() {
     if (this.ticket) {
       this.isLoading = true;
-      const filter: TransactionFilter = { externalId: this.ticket.id };
+      const filter: TransactionFilter = { externalId: this.ticket.id, playerId: this.ticket.playerId };
 
       this.transactionService.getTransactions(filter).subscribe((filteredTransactions) => {
         this.transactions = filteredTransactions;

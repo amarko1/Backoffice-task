@@ -7,18 +7,20 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges, ViewChild
 } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {PropertyType, TableConfiguration, TableItem} from "../configuration/table.component.configuration";
 import {TableSortingService} from "../../services/table.sorting.service";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['table.component.scss']
 })
-export class GenericTableComponent implements OnInit, OnChanges  {
+export class GenericTableComponent implements OnInit, OnChanges,AfterViewInit  {
   protected readonly PropertyType = PropertyType;
   @Input() isLoading: boolean = false;
   @Input() items: any[];
@@ -28,12 +30,19 @@ export class GenericTableComponent implements OnInit, OnChanges  {
   @Input() getPlayerName: (playerId: string) => string;
   @Output() actionClicked = new EventEmitter<any>();
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   sortColumn: string | null = null;
   sortDirection: 'asc' | 'desc' | null = null;
 
   constructor(private sortingService: TableSortingService, private cdRef: ChangeDetectorRef) {
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.cdRef.detectChanges();
+  }
 
   ngOnInit() {
     this.initializeDataSource();
@@ -42,7 +51,7 @@ export class GenericTableComponent implements OnInit, OnChanges  {
   }
 
   initializeDataSource() {
-    this.dataSource = new MatTableDataSource<TableItem>();
+    this.dataSource = new MatTableDataSource<TableItem>([]);
   }
 
   setupDisplayedColumns() {
@@ -50,10 +59,6 @@ export class GenericTableComponent implements OnInit, OnChanges  {
     if (this.tableConfiguration.action) {
       this.displayedColumns.push('action');
     }
-  }
-
-  displayBets(bets: any[]): string {
-    return bets.map(bet => `ID: ${bet.id}, Odds: ${bet.odds}`).join('; ');
   }
 
   processItems() {

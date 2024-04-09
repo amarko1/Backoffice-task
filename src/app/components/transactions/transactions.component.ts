@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Transaction} from "../../models/transaction.model";
 import {TransactionDetailsModalComponent} from "./modal/transaction.details.modal.component";
 import {PlayerService} from "../../services/player.service";
@@ -101,10 +101,13 @@ export class TransactionsComponent implements OnInit {
     this.tableConfiguration = new TableConfiguration(
       [
         new TableConfigurationProperty('External ID', 'externalId', PropertyType.Text),
+        new TableConfigurationProperty('Created at', "createdAt", PropertyType.DateTime),
         new TableConfigurationProperty('Player', 'playerId', PropertyType.Text),
         new TableConfigurationProperty('Type', 'type', PropertyType.Text),
         new TableConfigurationProperty('Direction', 'direction', PropertyType.Text),
         new TableConfigurationProperty('Provider', 'provider', PropertyType.Text),
+        new TableConfigurationProperty('Amount', "amount", PropertyType.Number),
+        new TableConfigurationProperty('Currency', "currency", PropertyType.Text),
       ],
       {
         name: "details",
