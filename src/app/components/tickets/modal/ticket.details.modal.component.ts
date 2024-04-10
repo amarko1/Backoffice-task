@@ -62,4 +62,8 @@ export class TicketDetailsModalComponent implements OnInit {
     }
   }
 
+  getTotalOdds(bets: any[]): number {
+    return bets.reduce((total, bet) => total * bet.odds, 1);
+  }
+
 }

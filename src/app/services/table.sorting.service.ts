@@ -33,7 +33,8 @@ export class TableSortingService {
     if (sortColumn === 'playerId') {
       valueA = this.playerNameMap.get(valueA) || valueA;
       valueB = this.playerNameMap.get(valueB) || valueB;
-    } else {
+    }
+    else {
       if (!isNaN(Number(valueA)) && !isNaN(Number(valueB))) {
         valueA = Number(valueA);
         valueB = Number(valueB);

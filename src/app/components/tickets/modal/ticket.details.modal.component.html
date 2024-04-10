@@ -13,6 +13,7 @@
         <p>{{'startAt' | translate}}: {{ bet.startAt | dateFormat }}</p>
       </li>
     </ul>
+    <h4>{{'totalOdds' | translate}}: {{ getTotalOdds(ticket.bets) | number: '1.2-2' }}</h4>
     <p>{{'payInAmount' | translate}}: {{ ticket?.payInAmount }}</p>
     <p>{{'payOutAmount' | translate}}: {{ ticket?.payOutAmount }}</p>
     <p>{{'currency' | translate}}: {{ ticket?.currency }}</p>

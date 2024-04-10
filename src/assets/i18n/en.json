@@ -51,5 +51,6 @@
   "close": "Close",
   "filterLabel": "Filters",
   "payIn": "Pay in",
-  "payOut": "Pay out"
+  "payOut": "Pay out",
+  "totalOdds": "Total odds"
 }

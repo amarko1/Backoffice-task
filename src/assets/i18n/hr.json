@@ -51,5 +51,6 @@
   "close": "Zatvori",
   "filterLabel": "Filteri",
   "payIn": "Uplata",
-  "payOut": "Isplata"
+  "payOut": "Isplata",
+  "totalOdds": "Ukupna kvota"
 }
