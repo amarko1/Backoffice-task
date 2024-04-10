@@ -98,12 +98,20 @@ export class GenericTableComponent implements OnInit, OnChanges  {
 
   onSort(columnName: string) {
     if (this.sortColumn === columnName) {
-      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+      if (this.sortDirection === 'asc') {
+        this.sortDirection = 'desc';
+      } else if (this.sortDirection === 'desc') {
+        this.sortDirection = null;
+        this.sortColumn = null;
+      }
     } else {
       this.sortColumn = columnName;
       this.sortDirection = 'asc';
     }
-    this.sortingService.sortData(this.dataSource, this.sortColumn, this.sortDirection);
+
+    if (this.sortDirection) {
+      this.sortingService.sortData(this.dataSource, this.sortColumn, this.sortDirection);
+    }
   }
 }
 

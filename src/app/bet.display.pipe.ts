@@ -5,6 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class BetDisplayPipe implements PipeTransform {
   transform(bet: any): string {
-    return `${bet.participants.join(' vs ')} odds: ${bet.odds}`;
+    return `${bet.participants.join(' vs ')}` + 'odds:' + `${bet.odds}`;
   }
 }
